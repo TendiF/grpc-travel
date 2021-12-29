@@ -1,0 +1,41 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "./proto";
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+
+message UserRequest {
+    string country_code         = 1;
+    string phone                = 2;
+    string first_name           = 3;
+    string last_name            = 4;
+    string gender               = 5;
+    string email                = 6;
+    string birth_date           = 7;
+    string password             = 8;
+    string document_number      = 9;
+    string address              = 10;
+}
+
+message UserResponse {
+    string message = 1;
+}
+
+
+service UsersService {
+    rpc Register(UserRequest) returns (UserResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/register"
+        };
+    }
+
+    rpc Login(UserRequest) returns (UserResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/login"
+        };
+    }
+}
+
