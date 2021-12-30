@@ -24,6 +24,11 @@ message UserResponse {
     string message = 1;
 }
 
+message verifyReqeust {
+    string token = 1;
+    string verification_code = 2;
+}
+
 
 service UsersService {
     rpc Register(UserRequest) returns (UserResponse) {
@@ -35,6 +40,12 @@ service UsersService {
     rpc Login(UserRequest) returns (UserResponse) {
         option (google.api.http) = {
             post: "/api/v1/login"
+        };
+    }
+
+    rpc VerifyCode(verifyReqeust) returns (UserResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/verify"
         };
     }
 }

@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type UsersServiceClient interface {
 	Register(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	Login(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	VerifyCode(ctx context.Context, in *VerifyReqeust, opts ...grpc.CallOption) (*UserResponse, error)
 }
 
 type usersServiceClient struct {
@@ -48,12 +49,22 @@ func (c *usersServiceClient) Login(ctx context.Context, in *UserRequest, opts ..
 	return out, nil
 }
 
+func (c *usersServiceClient) VerifyCode(ctx context.Context, in *VerifyReqeust, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/proto.UsersService/VerifyCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UsersServiceServer is the server API for UsersService service.
 // All implementations should embed UnimplementedUsersServiceServer
 // for forward compatibility
 type UsersServiceServer interface {
 	Register(context.Context, *UserRequest) (*UserResponse, error)
 	Login(context.Context, *UserRequest) (*UserResponse, error)
+	VerifyCode(context.Context, *VerifyReqeust) (*UserResponse, error)
 }
 
 // UnimplementedUsersServiceServer should be embedded to have forward compatible implementations.
@@ -65,6 +76,9 @@ func (UnimplementedUsersServiceServer) Register(context.Context, *UserRequest) (
 }
 func (UnimplementedUsersServiceServer) Login(context.Context, *UserRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedUsersServiceServer) VerifyCode(context.Context, *VerifyReqeust) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyCode not implemented")
 }
 
 // UnsafeUsersServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -114,6 +128,24 @@ func _UsersService_Login_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UsersService_VerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyReqeust)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServiceServer).VerifyCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UsersService/VerifyCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServiceServer).VerifyCode(ctx, req.(*VerifyReqeust))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UsersService_ServiceDesc is the grpc.ServiceDesc for UsersService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -128,6 +160,10 @@ var UsersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _UsersService_Login_Handler,
+		},
+		{
+			MethodName: "VerifyCode",
+			Handler:    _UsersService_VerifyCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

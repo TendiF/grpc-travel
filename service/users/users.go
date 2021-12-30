@@ -4,9 +4,14 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
+	"os"
+	"time"
 
 	"travel/proto"
+	types "travel/types"
 	"travel/utils"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 type Server struct {
@@ -75,7 +80,7 @@ func (s *Server) Register(ctx context.Context, params *proto.UserRequest) (*prot
 
 	if err != nil {
 		response.Message = err.Error()
-		return &response, nil
+		return &response, err
 	}
 
 	response.Message = "Success"
@@ -84,20 +89,17 @@ func (s *Server) Register(ctx context.Context, params *proto.UserRequest) (*prot
 }
 
 func (s *Server) Login(ctx context.Context, params *proto.UserRequest) (*proto.UserResponse, error) {
-	fmt.Println(params)
 	var response proto.UserResponse
 
 	query := `SELECT id, password, email FROM users 
 	WHERE (country_code=$1 AND phone=$2) 
 	OR (email=$3)`
 
-	fmt.Println(params.CountryCode, params.Phone, params.Email)
-
 	rows, err := utils.DB.Query(query, params.CountryCode, params.Phone, params.Email)
 
 	if err != nil {
 		response.Message = err.Error()
-		return &response, nil
+		return &response, err
 	}
 
 	for rows.Next() {
@@ -106,15 +108,88 @@ func (s *Server) Login(ctx context.Context, params *proto.UserRequest) (*proto.U
 		var email string
 		err = rows.Scan(&id, &password, &email)
 		if utils.ComparePasswords(password, []byte(params.Password)) {
-			response.Message = id
+			claims := &types.Claims{
+				Uid: id,
+				StandardClaims: jwt.StandardClaims{
+					ExpiresAt: time.Now().Add(12 * time.Hour).Unix(),
+				},
+			}
+
+			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+			tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SIGNATURE_KEY")))
+
+			if err != nil {
+				response.Message = err.Error()
+				return &response, err
+			}
+
+			response.Message = tokenString
 		} else {
-			response.Message = "wrong username or password"
+			response.Message = "wrong email/phone or password"
 		}
 
 		return &response, nil
 	}
 
 	response.Message = "Account not found"
+
+	return &response, nil
+}
+
+func (s *Server) VerifyCode(ctx context.Context, params *proto.VerifyReqeust) (*proto.UserResponse, error) {
+	var response proto.UserResponse
+	fmt.Println("params", params)
+
+	var claims types.Claims
+	token := params.Token
+
+	tkn, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SIGNATURE_KEY")), nil
+	})
+
+	if err != nil || !tkn.Valid || claims == (types.Claims{}) {
+		response.Message = err.Error()
+		return &response, err
+	}
+
+	fmt.Println("claims", claims.Uid)
+
+	query := `SELECT verification_code, status FROM users WHERE id=$1`
+	rows, err := utils.DB.Query(query, claims.Uid)
+
+	if err != nil {
+		response.Message = err.Error()
+		return &response, err
+	}
+
+	for rows.Next() {
+		var verification_code string
+		var status string
+		err = rows.Scan(&verification_code, &status)
+		if err != nil {
+			response.Message = err.Error()
+			return &response, err
+		}
+
+		if status == "active" {
+			response.Message = "already active"
+			return &response, nil
+		}
+
+		if verification_code == params.VerificationCode {
+			query := `UPDATE users SET verification_code = '', status='active' WHERE id=$1`
+			_, err := utils.DB.Exec(query, claims.Uid)
+			if err != nil {
+				response.Message = err.Error()
+				return &response, err
+			}
+
+			response.Message = "Success Verify"
+			return &response, nil
+		}
+	}
+
+	response.Message = "Fail verify"
 
 	return &response, nil
 }
