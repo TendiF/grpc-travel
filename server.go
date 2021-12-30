@@ -55,6 +55,7 @@ func main() {
 	}
 
 	go serveHttp()
+	go utils.RunUploadServer()
 
 	utils.InitDB()
 

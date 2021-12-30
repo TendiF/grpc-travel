@@ -2,7 +2,6 @@ package users
 
 import (
 	"context"
-	"fmt"
 	"math/rand"
 	"os"
 	"time"
@@ -138,7 +137,6 @@ func (s *Server) Login(ctx context.Context, params *proto.UserRequest) (*proto.U
 
 func (s *Server) VerifyCode(ctx context.Context, params *proto.VerifyReqeust) (*proto.UserResponse, error) {
 	var response proto.UserResponse
-	fmt.Println("params", params)
 
 	var claims types.Claims
 	token := params.Token
@@ -151,8 +149,6 @@ func (s *Server) VerifyCode(ctx context.Context, params *proto.VerifyReqeust) (*
 		response.Message = err.Error()
 		return &response, err
 	}
-
-	fmt.Println("claims", claims.Uid)
 
 	query := `SELECT verification_code, status FROM users WHERE id=$1`
 	rows, err := utils.DB.Query(query, claims.Uid)
