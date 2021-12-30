@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"net"
+	"os"
 
 	"travel/gateway"
 	"travel/proto"
@@ -11,6 +13,7 @@ import (
 	"travel/utils"
 
 	"github.com/golang/glog"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
@@ -21,12 +24,17 @@ var (
 
 func serveHttp() {
 	// gRPC gateway section
+	API_PORT := os.Getenv("API_PORT")
+	fmt.Println("API_PORT", API_PORT)
+	if API_PORT == "" {
+		API_PORT = "5001"
+	}
 	flag.Parse()
 	defer glog.Flush()
 
 	ctx := context.Background()
 	opts := gateway.Options{
-		Addr: ":9090",
+		Addr: ":" + API_PORT,
 		GRPCServer: gateway.Endpoint{
 			Network: *network,
 			Addr:    *endpoint,
@@ -38,15 +46,23 @@ func serveHttp() {
 }
 
 func main() {
+	godotenv.Load(".env")
+
+	GRPC_PORT := os.Getenv("GRPC_PORT")
+
+	if GRPC_PORT == "" {
+		GRPC_PORT = "5000"
+	}
+
 	go serveHttp()
 
 	utils.InitDB()
 
 	// gRPC server section
-	lis, err := net.Listen("tcp", ":9000")
+	lis, err := net.Listen("tcp", ":"+GRPC_PORT)
 
 	if err != nil {
-		glog.Errorf("fail to listen on port 9000: %v", err)
+		glog.Errorf("fail to listen on port %s: %v", GRPC_PORT, err)
 	}
 
 	grpcServer := grpc.NewServer(
@@ -58,6 +74,6 @@ func main() {
 	proto.RegisterUsersServiceServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
-		glog.Errorf("Failed to serve gRPC server over port 9000: %v", err)
+		glog.Errorf("Failed to serve gRPC server over port %: %v", GRPC_PORT, err)
 	}
 }

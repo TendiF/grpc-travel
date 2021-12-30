@@ -1,2 +1,3 @@
 tmp/logs.log
 tmp/runner-build
+.env
