@@ -1,45 +1,35 @@
 package utils
 
 import (
-	"database/sql"
-	"fmt"
+	"context"
+	"log"
+	"os"
+	"time"
 
-	_ "github.com/lib/pq"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-const (
-	dbhost = "localhost"
-	dbport = "5432"
-	dbuser = "postgres"
-	dbpass = ""
-	dbname = "travel"
-)
+var MongoDB *mongo.Database
+var MongoContext context.Context
 
-var DB *sql.DB
-
-func InitDB() {
-	var err error
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", dbhost, dbport, dbuser, dbpass, dbname)
-
-	fmt.Println(psqlInfo)
-
-	DB, err = sql.Open("postgres", psqlInfo)
+func CreateConnection(time time.Duration) {
+	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
 
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	err = DB.Ping()
+	ctx, _ := context.WithTimeout(context.Background(), time)
+
+	MongoContext = ctx
+	err = client.Connect(ctx)
+	err = client.Ping(ctx, readpref.Primary())
 
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	rows, err := DB.Query("SELECT current_database();")
-
-	for rows.Next() {
-		var current_database string
-		err = rows.Scan(&current_database)
-		fmt.Println("DB Connected to:", current_database)
-	}
+	MongoDB = client.Database(os.Getenv("MONGO_DB"))
 }

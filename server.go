@@ -7,10 +7,10 @@ import (
 	"net"
 	"os"
 
-	"travel/gateway"
-	"travel/proto"
-	users "travel/service/users"
-	"travel/utils"
+	"deall-package/gateway"
+	"deall-package/proto"
+	users "deall-package/service/users"
+	"deall-package/utils"
 
 	"github.com/golang/glog"
 	"github.com/joho/godotenv"
@@ -55,9 +55,6 @@ func main() {
 	}
 
 	go serveHttp()
-	go utils.RunUploadServer()
-
-	utils.InitDB()
 
 	// gRPC server section
 	lis, err := net.Listen("tcp", ":"+GRPC_PORT)

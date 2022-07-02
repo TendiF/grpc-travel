@@ -16,8 +16,7 @@ message UserRequest {
     string email                = 6;
     string birth_date           = 7;
     string password             = 8;
-    string document_number      = 9;
-    string address              = 10;
+    string address              = 9;
 }
 
 message UserResponse {
