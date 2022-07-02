@@ -21,7 +21,7 @@ func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.
 	fmt.Println("params", params)
 
 	// verify empty data
-	if params.Email == "" || params.Phone == "" || params.FirstName == "" || params.LastName == "" {
+	if params.Email == "" || params.FirstName == "" || params.LastName == "" {
 		response.Message = "fill required data"
 		return &response, nil
 	}
@@ -52,6 +52,43 @@ func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.
 	_, err = userModel.Insert(user)
 
 	if err != nil {
+		response.Message = "Fail"
+	} else {
+		response.Message = "Success"
+	}
+
+	return &response, nil
+}
+
+func (s *Server) Update(ctx context.Context, params *proto.UserUpdateRequest) (*proto.UserResponse, error) {
+	var response proto.UserResponse
+	var user types.User
+	fmt.Println("params", params)
+
+	// verify empty data
+	if params.Id == "" || params.Email == "" || params.FirstName == "" || params.LastName == "" {
+		response.Message = "fill required data"
+		return &response, nil
+	}
+
+	_, err := mail.ParseAddress(params.Email)
+
+	if err != nil {
+		response.Message = "invalid email"
+		return &response, nil
+	}
+
+	user.FirstName = params.FirstName
+	user.LastName = params.LastName
+	user.Gender = params.Gender
+	user.Email = params.Email
+	user.Password = params.Password
+	user.Address = params.Address
+
+	_, err = userModel.Update(params.Id, user)
+
+	if err != nil {
+		fmt.Println(err)
 		response.Message = "Fail"
 	} else {
 		response.Message = "Success"

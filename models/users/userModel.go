@@ -19,6 +19,16 @@ func Insert(user types.User) (*mongo.InsertOneResult, error) {
 	return mongDB.Collection(collection).InsertOne(utils.MongoContext, user)
 }
 
+func Update(ID string, user types.User) (*mongo.UpdateResult, error) {
+	mongDB := utils.MongoDB
+	user.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
+	fmt.Println(ID)
+	id, _ := primitive.ObjectIDFromHex(ID)
+	return mongDB.Collection(collection).UpdateByID(utils.MongoContext, id, bson.D{
+		{"$set", user},
+	})
+}
+
 func Find(params bson.M) []types.User {
 	mongDB := utils.MongoDB
 	crsr, err := mongDB.Collection(collection).Find(utils.MongoContext, params)

@@ -57,12 +57,6 @@
         },
         "parameters": [
           {
-            "name": "phone",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "firstName",
             "in": "query",
             "required": false,
@@ -120,12 +114,6 @@
           }
         },
         "parameters": [
-          {
-            "name": "phone",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
           {
             "name": "firstName",
             "in": "query",
@@ -217,37 +205,12 @@
           "UsersService"
         ]
       }
-    },
-    "/api/v1/verify": {
-      "post": {
-        "operationId": "UsersService_VerifyCode",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/protoUserResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "UsersService"
-        ]
-      }
     }
   },
   "definitions": {
     "protoUserRequest": {
       "type": "object",
       "properties": {
-        "phone": {
-          "type": "string"
-        },
         "firstName": {
           "type": "string"
         },
