@@ -36,7 +36,7 @@ var (
 )
 
 func request_UsersService_Delete_0(ctx context.Context, marshaler runtime.Marshaler, client UsersServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserRequest
+	var protoReq UserDeleteRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
@@ -52,7 +52,7 @@ func request_UsersService_Delete_0(ctx context.Context, marshaler runtime.Marsha
 }
 
 func local_request_UsersService_Delete_0(ctx context.Context, marshaler runtime.Marshaler, server UsersServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserRequest
+	var protoReq UserDeleteRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {

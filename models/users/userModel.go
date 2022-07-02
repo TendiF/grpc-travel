@@ -30,6 +30,14 @@ func Update(ID string, user types.User) (*mongo.UpdateResult, error) {
 	})
 }
 
+func Delete(ID string) (*mongo.DeleteResult, error) {
+	mongDB := utils.MongoDB
+	id, _ := primitive.ObjectIDFromHex(ID)
+	return mongDB.Collection(collection).DeleteOne(utils.MongoContext, bson.D{
+		{"_id", id},
+	})
+}
+
 func Find(params bson.M, limit int64, skip int64) []types.User {
 	mongDB := utils.MongoDB
 	options := options.FindOptions{}

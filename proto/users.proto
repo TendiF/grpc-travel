@@ -43,9 +43,13 @@ message UserGetResponse {
     repeated UserUpdateRequest data = 3;
 }
 
+message userDeleteRequest {
+    string id  = 1;
+}
+
 service UsersService {
 
-    rpc Delete(UserRequest) returns (UserResponse) {
+    rpc Delete(userDeleteRequest) returns (UserResponse) {
         option (google.api.http) = {
             delete: "/api/v1/user"
         };

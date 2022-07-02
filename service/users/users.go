@@ -99,6 +99,21 @@ func (s *Server) Update(ctx context.Context, params *proto.UserUpdateRequest) (*
 	return &response, nil
 }
 
+func (s *Server) Delete(ctx context.Context, params *proto.UserDeleteRequest) (*proto.UserResponse, error) {
+	var response proto.UserResponse
+
+	_, err := userModel.Delete(params.Id)
+
+	if err != nil {
+		fmt.Println(err)
+		response.Message = "Fail"
+	} else {
+		response.Message = "Success"
+	}
+
+	return &response, nil
+}
+
 func (s *Server) Login(ctx context.Context, params *proto.UserRequest) (*proto.UserResponse, error) {
 	var response proto.UserResponse
 

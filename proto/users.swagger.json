@@ -99,37 +99,7 @@
         },
         "parameters": [
           {
-            "name": "firstName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "lastName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "gender",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "address",
+            "name": "id",
             "in": "query",
             "required": false,
             "type": "string"
