@@ -9,6 +9,7 @@ import (
 	"net/mail"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Server struct {
@@ -35,7 +36,7 @@ func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.
 
 	users := userModel.Find(bson.M{
 		"email": params.Email,
-	})
+	}, 0, 0)
 
 	if len(users) >= 1 {
 		response.Message = "user " + params.Email + " already exist"
@@ -102,5 +103,40 @@ func (s *Server) Login(ctx context.Context, params *proto.UserRequest) (*proto.U
 
 	response.Message = "Account not found"
 
+	return &response, nil
+}
+
+func (s *Server) Get(ctx context.Context, params *proto.UserGetRequest) (*proto.UserGetResponse, error) {
+	var response proto.UserGetResponse
+
+	paramsBson := bson.M{}
+
+	paramsBson["$or"] = []interface{}{
+		bson.M{"email": primitive.Regex{Pattern: "tendifirmansyah30@gmail.com", Options: "i"}},
+	}
+
+	if params.Page == 0 {
+		params.Page = 1
+	}
+
+	if params.PerPage == 0 {
+		params.PerPage = 10
+	}
+
+	users := userModel.Find(paramsBson, params.PerPage, (params.PerPage*params.Page)-params.PerPage)
+
+	for _, val := range users {
+		user := proto.UserUpdateRequest{
+			Id:        val.ID.String(),
+			FirstName: val.FirstName,
+			LastName:  val.LastName,
+			Gender:    val.Gender,
+			Email:     val.Email,
+			Address:   val.Address,
+		}
+		response.Data = append(response.Data, &user)
+	}
+
+	response.Message = "Success"
 	return &response, nil
 }

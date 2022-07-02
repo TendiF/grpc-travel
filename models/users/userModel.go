@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var collection = "user"
@@ -29,9 +30,12 @@ func Update(ID string, user types.User) (*mongo.UpdateResult, error) {
 	})
 }
 
-func Find(params bson.M) []types.User {
+func Find(params bson.M, limit int64, skip int64) []types.User {
 	mongDB := utils.MongoDB
-	crsr, err := mongDB.Collection(collection).Find(utils.MongoContext, params)
+	options := options.FindOptions{}
+	options.Limit = &limit
+	options.Skip = &skip
+	crsr, err := mongDB.Collection(collection).Find(utils.MongoContext, params, &options)
 	if err != nil {
 		fmt.Println(err)
 	}

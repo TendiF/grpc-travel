@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UsersServiceClient interface {
 	Delete(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
-	Get(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error)
 	Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	Create(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	Login(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
@@ -42,8 +42,8 @@ func (c *usersServiceClient) Delete(ctx context.Context, in *UserRequest, opts .
 	return out, nil
 }
 
-func (c *usersServiceClient) Get(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
-	out := new(UserResponse)
+func (c *usersServiceClient) Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error) {
+	out := new(UserGetResponse)
 	err := c.cc.Invoke(ctx, "/proto.UsersService/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (c *usersServiceClient) Login(ctx context.Context, in *UserRequest, opts ..
 // for forward compatibility
 type UsersServiceServer interface {
 	Delete(context.Context, *UserRequest) (*UserResponse, error)
-	Get(context.Context, *UserRequest) (*UserResponse, error)
+	Get(context.Context, *UserGetRequest) (*UserGetResponse, error)
 	Update(context.Context, *UserUpdateRequest) (*UserResponse, error)
 	Create(context.Context, *UserRequest) (*UserResponse, error)
 	Login(context.Context, *UserRequest) (*UserResponse, error)
@@ -96,7 +96,7 @@ type UnimplementedUsersServiceServer struct {
 func (UnimplementedUsersServiceServer) Delete(context.Context, *UserRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedUsersServiceServer) Get(context.Context, *UserRequest) (*UserResponse, error) {
+func (UnimplementedUsersServiceServer) Get(context.Context, *UserGetRequest) (*UserGetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedUsersServiceServer) Update(context.Context, *UserUpdateRequest) (*UserResponse, error) {
@@ -139,7 +139,7 @@ func _UsersService_Delete_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _UsersService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(UserGetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -151,7 +151,7 @@ func _UsersService_Get_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/proto.UsersService/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServiceServer).Get(ctx, req.(*UserRequest))
+		return srv.(UsersServiceServer).Get(ctx, req.(*UserGetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

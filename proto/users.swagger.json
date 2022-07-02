@@ -45,7 +45,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/protoUserResponse"
+              "$ref": "#/definitions/protoUserGetResponse"
             }
           },
           "default": {
@@ -57,40 +57,18 @@
         },
         "parameters": [
           {
-            "name": "firstName",
+            "name": "page",
             "in": "query",
             "required": false,
-            "type": "string"
+            "type": "string",
+            "format": "int64"
           },
           {
-            "name": "lastName",
+            "name": "perPage",
             "in": "query",
             "required": false,
-            "type": "string"
-          },
-          {
-            "name": "gender",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "address",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -208,6 +186,24 @@
     }
   },
   "definitions": {
+    "protoUserGetResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "totalPage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protoUserUpdateRequest"
+          }
+        }
+      }
+    },
     "protoUserRequest": {
       "type": "object",
       "properties": {
@@ -235,6 +231,32 @@
       "type": "object",
       "properties": {
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "protoUserUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "address": {
           "type": "string"
         }
       }
