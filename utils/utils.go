@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 )
 
-func serverInterceptor(ctx context.Context,
+func UnaryInterceptorHandler(ctx context.Context,
 	req interface{},
 	info *grpc.UnaryServerInfo,
 	handler grpc.UnaryHandler) (interface{}, error) {
@@ -25,6 +26,8 @@ func serverInterceptor(ctx context.Context,
 
 	log.Println("ACCESS|" + s)
 
+	CreateConnection(3 * time.Second)
+
 	// Calls the handler
 	h, err := handler(ctx, req)
 
@@ -32,7 +35,7 @@ func serverInterceptor(ctx context.Context,
 }
 
 func WithServerUnaryInterceptor() grpc.ServerOption {
-	return grpc.UnaryInterceptor(serverInterceptor)
+	return grpc.UnaryInterceptor(UnaryInterceptorHandler)
 }
 
 func HashAndSalt(pwd []byte) string {

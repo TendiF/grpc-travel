@@ -18,7 +18,7 @@ import (
 )
 
 var (
-	endpoint = flag.String("endpoint", "localhost:9000", "endpoint of the gRPC service")
+	endpoint = flag.String("endpoint", "localhost:5000", "endpoint of the gRPC service")
 	network  = flag.String("network", "tcp", `one of "tcp" or "unix". Must be consistent to -endpoint`)
 )
 
