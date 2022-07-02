@@ -6,6 +6,7 @@ import (
 	"deall-package/proto"
 	types "deall-package/types"
 	"fmt"
+	"math"
 	"net/mail"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -110,9 +111,8 @@ func (s *Server) Get(ctx context.Context, params *proto.UserGetRequest) (*proto.
 	var response proto.UserGetResponse
 
 	paramsBson := bson.M{}
-
 	paramsBson["$or"] = []interface{}{
-		bson.M{"email": primitive.Regex{Pattern: "tendifirmansyah30@gmail.com", Options: "i"}},
+		bson.M{"email": primitive.Regex{Pattern: params.Search, Options: "i"}},
 	}
 
 	if params.Page == 0 {
@@ -124,6 +124,8 @@ func (s *Server) Get(ctx context.Context, params *proto.UserGetRequest) (*proto.
 	}
 
 	users := userModel.Find(paramsBson, params.PerPage, (params.PerPage*params.Page)-params.PerPage)
+	totalData := userModel.CountDocuments(paramsBson)
+	response.TotalPage = int64(math.RoundToEven(float64(totalData) / float64(params.PerPage)))
 
 	for _, val := range users {
 		user := proto.UserUpdateRequest{

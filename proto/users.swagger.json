@@ -69,6 +69,12 @@
             "required": false,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [

@@ -52,6 +52,16 @@ func Find(params bson.M, limit int64, skip int64) []types.User {
 	return user
 }
 
+func CountDocuments(params bson.M) int64 {
+	mongDB := utils.MongoDB
+	total, err := mongDB.Collection(collection).CountDocuments(utils.MongoContext, params)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return total
+}
+
 func FindByUsername(username string) types.User {
 	mongoDB := utils.MongoDB
 	var user types.User
