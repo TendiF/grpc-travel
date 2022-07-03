@@ -22,7 +22,7 @@ type UsersServiceClient interface {
 	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error)
 	Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	Create(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
-	Login(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	Login(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 }
 
 type usersServiceClient struct {
@@ -69,8 +69,8 @@ func (c *usersServiceClient) Create(ctx context.Context, in *UserRequest, opts .
 	return out, nil
 }
 
-func (c *usersServiceClient) Login(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
-	out := new(UserResponse)
+func (c *usersServiceClient) Login(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error) {
+	out := new(UserLoginResponse)
 	err := c.cc.Invoke(ctx, "/proto.UsersService/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ type UsersServiceServer interface {
 	Get(context.Context, *UserGetRequest) (*UserGetResponse, error)
 	Update(context.Context, *UserUpdateRequest) (*UserResponse, error)
 	Create(context.Context, *UserRequest) (*UserResponse, error)
-	Login(context.Context, *UserRequest) (*UserResponse, error)
+	Login(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 }
 
 // UnimplementedUsersServiceServer should be embedded to have forward compatible implementations.
@@ -105,7 +105,7 @@ func (UnimplementedUsersServiceServer) Update(context.Context, *UserUpdateReques
 func (UnimplementedUsersServiceServer) Create(context.Context, *UserRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedUsersServiceServer) Login(context.Context, *UserRequest) (*UserResponse, error) {
+func (UnimplementedUsersServiceServer) Login(context.Context, *UserLoginRequest) (*UserLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
 
@@ -193,7 +193,7 @@ func _UsersService_Create_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _UsersService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(UserLoginRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -205,7 +205,7 @@ func _UsersService_Login_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/proto.UsersService/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServiceServer).Login(ctx, req.(*UserRequest))
+		return srv.(UsersServiceServer).Login(ctx, req.(*UserLoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

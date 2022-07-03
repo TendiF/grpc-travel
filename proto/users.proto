@@ -14,12 +14,13 @@ message UserRequest {
     string email                = 4;
     string password             = 5;
     string address              = 6;
+    string username             = 7;
+
 }
 
 message UserResponse {
     string message = 1;
 }
-
 
 message UserUpdateRequest {
     string id                   = 1;
@@ -29,6 +30,7 @@ message UserUpdateRequest {
     string email                = 5;
     string password             = 6;
     string address              = 7;
+    string username             = 8;
 }
 
 message UserGetRequest {
@@ -47,11 +49,22 @@ message userDeleteRequest {
     string id  = 1;
 }
 
+message userLoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message userLoginResponse {
+    string message = 1;
+    string token = 2;
+}
+
 service UsersService {
 
     rpc Delete(userDeleteRequest) returns (UserResponse) {
         option (google.api.http) = {
             delete: "/api/v1/user"
+            body: "*"
         };
     }
 
@@ -64,6 +77,7 @@ service UsersService {
     rpc Update(UserUpdateRequest) returns (UserResponse) {
         option (google.api.http) = {
             put: "/api/v1/user"
+            body: "*"
         };
     }
 
@@ -74,9 +88,10 @@ service UsersService {
         };
     }
 
-    rpc Login(UserRequest) returns (UserResponse) {
+    rpc Login(userLoginRequest) returns (userLoginResponse) {
         option (google.api.http) = {
             post: "/api/v1/login"
+            body: "*"
         };
     }
 }

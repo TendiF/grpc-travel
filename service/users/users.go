@@ -5,10 +5,14 @@ import (
 	userModel "deall-package/models/users"
 	"deall-package/proto"
 	types "deall-package/types"
+	"deall-package/utils"
 	"fmt"
 	"math"
 	"net/mail"
+	"os"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -40,7 +44,16 @@ func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.
 	}, 0, 0)
 
 	if len(users) >= 1 {
-		response.Message = "user " + params.Email + " already exist"
+		response.Message = "email user " + params.Email + " already exist"
+		return &response, nil
+	}
+
+	users = userModel.Find(bson.M{
+		"username": params.Username,
+	}, 0, 0)
+
+	if len(users) >= 1 {
+		response.Message = "username user " + params.Username + " already exist"
 		return &response, nil
 	}
 
@@ -48,8 +61,9 @@ func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.
 	user.LastName = params.LastName
 	user.Gender = params.Gender
 	user.Email = params.Email
-	user.Password = params.Password
+	user.Password = utils.HashAndSalt([]byte(params.Password))
 	user.Address = params.Address
+	user.Username = params.Username
 
 	_, err = userModel.Insert(user)
 
@@ -65,7 +79,13 @@ func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.
 func (s *Server) Update(ctx context.Context, params *proto.UserUpdateRequest) (*proto.UserResponse, error) {
 	var response proto.UserResponse
 	var user types.User
-	fmt.Println("params", params)
+
+	userFormDB := userModel.FindById(params.Id)
+
+	if userFormDB.ID.Hex() == "000000000000000000000000" {
+		response.Message = "user not found"
+		return &response, nil
+	}
 
 	// verify empty data
 	if params.Id == "" || params.Email == "" || params.FirstName == "" || params.LastName == "" {
@@ -84,8 +104,9 @@ func (s *Server) Update(ctx context.Context, params *proto.UserUpdateRequest) (*
 	user.LastName = params.LastName
 	user.Gender = params.Gender
 	user.Email = params.Email
-	user.Password = params.Password
+	user.Password = utils.HashAndSalt([]byte(params.Password))
 	user.Address = params.Address
+	user.Username = params.Username
 
 	_, err = userModel.Update(params.Id, user)
 
@@ -102,6 +123,13 @@ func (s *Server) Update(ctx context.Context, params *proto.UserUpdateRequest) (*
 func (s *Server) Delete(ctx context.Context, params *proto.UserDeleteRequest) (*proto.UserResponse, error) {
 	var response proto.UserResponse
 
+	userFormDB := userModel.FindById(params.Id)
+
+	if userFormDB.ID.Hex() == "000000000000000000000000" {
+		response.Message = "user not found"
+		return &response, nil
+	}
+
 	_, err := userModel.Delete(params.Id)
 
 	if err != nil {
@@ -114,10 +142,33 @@ func (s *Server) Delete(ctx context.Context, params *proto.UserDeleteRequest) (*
 	return &response, nil
 }
 
-func (s *Server) Login(ctx context.Context, params *proto.UserRequest) (*proto.UserResponse, error) {
-	var response proto.UserResponse
+func (s *Server) Login(ctx context.Context, params *proto.UserLoginRequest) (*proto.UserLoginResponse, error) {
+	var response proto.UserLoginResponse
 
-	response.Message = "Account not found"
+	user := userModel.FindOne(bson.M{
+		"username": params.Username,
+	})
+
+	if utils.ComparePasswords(user.Password, []byte(params.Password)) {
+		claims := &types.Claims{
+			Uid: user.ID.Hex(),
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: time.Now().Add(12 * time.Hour).Unix(),
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SIGNATURE_KEY")))
+
+		if err != nil {
+			response.Message = "fail Signed token"
+			return &response, nil
+		}
+		response.Message = "success"
+		response.Token = tokenString
+	} else {
+		response.Message = "wrong username or password"
+	}
 
 	return &response, nil
 }

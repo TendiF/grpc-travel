@@ -2,13 +2,18 @@ package utils
 
 import (
 	"context"
+	"deall-package/types"
 	"fmt"
 	"log"
 	"os"
 	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 )
 
 func UnaryInterceptorHandler(ctx context.Context,
@@ -25,6 +30,31 @@ func UnaryInterceptorHandler(ctx context.Context,
 	log.SetOutput(file)
 
 	log.Println("ACCESS|" + s)
+
+	md, ok := metadata.FromIncomingContext(ctx)
+
+	if !ok {
+		log.Fatal("get metadata error")
+	}
+
+	if info.FullMethod != "/proto.UsersService/Login" {
+		var claims types.Claims
+		token := md["authorization"]
+
+		if len(token) == 0 {
+			return "", status.Error(codes.InvalidArgument, "Token not provided")
+		}
+
+		tkn, err := jwt.ParseWithClaims(token[0], &claims, func(token *jwt.Token) (interface{}, error) {
+			return []byte(os.Getenv("JWT_SIGNATURE_KEY")), nil
+		})
+
+		if err != nil || !tkn.Valid || claims == (types.Claims{}) {
+			return "", status.Error(codes.InvalidArgument, "Token not authorize")
+		}
+
+		fmt.Println("claims", claims)
+	}
 
 	CreateConnection(3 * time.Second)
 

@@ -23,7 +23,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/protoUserResponse"
+              "$ref": "#/definitions/protouserLoginResponse"
             }
           },
           "default": {
@@ -33,6 +33,16 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protouserLoginRequest"
+            }
+          }
+        ],
         "tags": [
           "UsersService"
         ]
@@ -99,10 +109,12 @@
         },
         "parameters": [
           {
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protouserDeleteRequest"
+            }
           }
         ],
         "tags": [
@@ -155,6 +167,16 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protoUserUpdateRequest"
+            }
+          }
+        ],
         "tags": [
           "UsersService"
         ]
@@ -200,6 +222,9 @@
         },
         "address": {
           "type": "string"
+        },
+        "username": {
+          "type": "string"
         }
       }
     },
@@ -234,6 +259,9 @@
         },
         "address": {
           "type": "string"
+        },
+        "username": {
+          "type": "string"
         }
       }
     },
@@ -245,6 +273,36 @@
         }
       },
       "additionalProperties": {}
+    },
+    "protouserDeleteRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "protouserLoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "protouserLoginResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
     },
     "rpcStatus": {
       "type": "object",

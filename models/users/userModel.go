@@ -38,6 +38,17 @@ func Delete(ID string) (*mongo.DeleteResult, error) {
 	})
 }
 
+func FindOne(params bson.M) types.User {
+	mongoDB := utils.MongoDB
+	var user types.User
+
+	if err := mongoDB.Collection(collection).FindOne(utils.MongoContext, params).Decode(&user); err != nil {
+		fmt.Println("err", err)
+	}
+
+	return user
+}
+
 func Find(params bson.M, limit int64, skip int64) []types.User {
 	mongDB := utils.MongoDB
 	options := options.FindOptions{}
