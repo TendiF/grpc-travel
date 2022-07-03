@@ -53,7 +53,9 @@ func UnaryInterceptorHandler(ctx context.Context,
 			return "", status.Error(codes.InvalidArgument, "Token not authorize")
 		}
 
-		fmt.Println("claims", claims)
+		md.Append("uid", claims.Uid)
+
+		ctx = metadata.NewIncomingContext(ctx, md)
 	}
 
 	CreateConnection(3 * time.Second)

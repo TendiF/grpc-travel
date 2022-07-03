@@ -59,6 +59,13 @@ message userLoginResponse {
     string token = 2;
 }
 
+
+message userProfileRequest {}
+message userProfileResponse {
+    string message     = 1;
+    UserUpdateRequest profile = 2;
+}
+
 service UsersService {
 
     rpc Delete(userDeleteRequest) returns (UserResponse) {
@@ -85,6 +92,12 @@ service UsersService {
         option (google.api.http) = {
             post: "/api/v1/user"
             body: "*"
+        };
+    }
+
+    rpc UserProfile(userProfileRequest) returns (userProfileResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/user/profile"
         };
     }
 

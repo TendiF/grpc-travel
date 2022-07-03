@@ -7,6 +7,7 @@ import (
 	types "deall-package/types"
 	"deall-package/utils"
 	"fmt"
+	"log"
 	"math"
 	"net/mail"
 	"os"
@@ -15,6 +16,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"google.golang.org/grpc/metadata"
 )
 
 type Server struct {
@@ -206,5 +208,32 @@ func (s *Server) Get(ctx context.Context, params *proto.UserGetRequest) (*proto.
 	}
 
 	response.Message = "Success"
+	return &response, nil
+}
+
+func (s *Server) UserProfile(ctx context.Context, params *proto.UserProfileRequest) (*proto.UserProfileResponse, error) {
+	var response proto.UserProfileResponse
+	var profile proto.UserUpdateRequest
+	md, ok := metadata.FromIncomingContext(ctx)
+
+	if !ok {
+		log.Fatal("get metadata error")
+	}
+
+	if len(md["uid"]) == 0 {
+		response.Message = "invalid token uid"
+		return &response, nil
+	}
+
+	user := userModel.FindById(md["uid"][0])
+
+	profile.FirstName = user.FirstName
+	profile.LastName = user.LastName
+	profile.Email = user.Email
+	profile.Username = user.Username
+	profile.Gender = user.Gender
+
+	response.Profile = &profile
+
 	return &response, nil
 }

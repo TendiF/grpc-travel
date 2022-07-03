@@ -181,6 +181,28 @@
           "UsersService"
         ]
       }
+    },
+    "/api/v1/user/profile": {
+      "get": {
+        "operationId": "UsersService_UserProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protouserProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "UsersService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -301,6 +323,17 @@
         },
         "token": {
           "type": "string"
+        }
+      }
+    },
+    "protouserProfileResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "profile": {
+          "$ref": "#/definitions/protoUserUpdateRequest"
         }
       }
     },
