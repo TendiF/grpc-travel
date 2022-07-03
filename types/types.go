@@ -7,7 +7,8 @@ import (
 
 type Claims struct {
 	jwt.StandardClaims
-	Uid string
+	Uid  string
+	Role int
 }
 
 type User struct {
@@ -21,4 +22,5 @@ type User struct {
 	Password   string             `bson:"password,omitempty" json:"password"`
 	Address    string             `bson:"address,omitempty" json:"address"`
 	Username   string             `bson:"username,omitempty" json:"username"`
+	Role       int                `bson:"role,omitempty" json:"role"`
 }

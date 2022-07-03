@@ -2,7 +2,7 @@ package userModel
 
 import (
 	"deall-package/types"
-	"deall-package/utils"
+	"deall-package/utils/database"
 	"fmt"
 	"time"
 
@@ -15,34 +15,34 @@ import (
 var collection = "user"
 
 func Insert(user types.User) (*mongo.InsertOneResult, error) {
-	mongDB := utils.MongoDB
+	mongDB := database.MongoDB
 	user.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
-	return mongDB.Collection(collection).InsertOne(utils.MongoContext, user)
+	return mongDB.Collection(collection).InsertOne(database.MongoContext, user)
 }
 
 func Update(ID string, user types.User) (*mongo.UpdateResult, error) {
-	mongDB := utils.MongoDB
+	mongDB := database.MongoDB
 	user.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
 	fmt.Println(ID)
 	id, _ := primitive.ObjectIDFromHex(ID)
-	return mongDB.Collection(collection).UpdateByID(utils.MongoContext, id, bson.D{
+	return mongDB.Collection(collection).UpdateByID(database.MongoContext, id, bson.D{
 		{"$set", user},
 	})
 }
 
 func Delete(ID string) (*mongo.DeleteResult, error) {
-	mongDB := utils.MongoDB
+	mongDB := database.MongoDB
 	id, _ := primitive.ObjectIDFromHex(ID)
-	return mongDB.Collection(collection).DeleteOne(utils.MongoContext, bson.D{
+	return mongDB.Collection(collection).DeleteOne(database.MongoContext, bson.D{
 		{"_id", id},
 	})
 }
 
 func FindOne(params bson.M) types.User {
-	mongoDB := utils.MongoDB
+	mongoDB := database.MongoDB
 	var user types.User
 
-	if err := mongoDB.Collection(collection).FindOne(utils.MongoContext, params).Decode(&user); err != nil {
+	if err := mongoDB.Collection(collection).FindOne(database.MongoContext, params).Decode(&user); err != nil {
 		fmt.Println("err", err)
 	}
 
@@ -50,16 +50,16 @@ func FindOne(params bson.M) types.User {
 }
 
 func Find(params bson.M, limit int64, skip int64) []types.User {
-	mongDB := utils.MongoDB
+	mongDB := database.MongoDB
 	options := options.FindOptions{}
 	options.Limit = &limit
 	options.Skip = &skip
-	crsr, err := mongDB.Collection(collection).Find(utils.MongoContext, params, &options)
+	crsr, err := mongDB.Collection(collection).Find(database.MongoContext, params, &options)
 	if err != nil {
 		fmt.Println(err)
 	}
 	var user []types.User
-	for crsr.Next(utils.MongoContext) {
+	for crsr.Next(database.MongoContext) {
 		var row types.User
 		err := crsr.Decode(&row)
 		if err != nil {
@@ -72,8 +72,8 @@ func Find(params bson.M, limit int64, skip int64) []types.User {
 }
 
 func CountDocuments(params bson.M) int64 {
-	mongDB := utils.MongoDB
-	total, err := mongDB.Collection(collection).CountDocuments(utils.MongoContext, params)
+	mongDB := database.MongoDB
+	total, err := mongDB.Collection(collection).CountDocuments(database.MongoContext, params)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -82,10 +82,10 @@ func CountDocuments(params bson.M) int64 {
 }
 
 func FindByUsername(username string) types.User {
-	mongoDB := utils.MongoDB
+	mongoDB := database.MongoDB
 	var user types.User
 
-	if err := mongoDB.Collection(collection).FindOne(utils.MongoContext, bson.M{
+	if err := mongoDB.Collection(collection).FindOne(database.MongoContext, bson.M{
 		"username": username,
 	}).Decode(&user); err != nil {
 		fmt.Println("err", err)
@@ -95,16 +95,15 @@ func FindByUsername(username string) types.User {
 }
 
 func FindById(id string) types.User {
-	mongoDB := utils.MongoDB
+	mongoDB := database.MongoDB
 	var customer types.User
 	objectId, err := primitive.ObjectIDFromHex(id)
 
-	fmt.Println("id", id, objectId, collection)
 	if err != nil {
 		fmt.Println("objectId err", err)
 	}
 
-	if err := mongoDB.Collection(collection).FindOne(utils.MongoContext, bson.M{
+	if err := mongoDB.Collection(collection).FindOne(database.MongoContext, bson.M{
 		"_id": objectId,
 	}).Decode(&customer); err != nil {
 		fmt.Println("err", err)

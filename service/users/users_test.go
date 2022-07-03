@@ -7,8 +7,8 @@ import (
 	"net"
 	"testing"
 
-	"travel/proto"
-	users "travel/service/users"
+	"deall-package/proto"
+	users "deall-package/service/users"
 
 	"github.com/golang/glog"
 	"google.golang.org/grpc"
@@ -40,7 +40,7 @@ func DialTestServer() {
 	}
 }
 
-func TestRegister(t *testing.T) {
+func TestCreate(t *testing.T) {
 	go DialTestServer()
 	t.Log("get list users")
 	var conn *grpc.ClientConn
@@ -52,9 +52,10 @@ func TestRegister(t *testing.T) {
 
 	c := proto.NewUsersServiceClient(conn)
 
-	response, err := c.Register(context.Background(), &proto.UserRequest{
-		CountryCode: "62",
-		FirstName:   "Tendi",
+	response, err := c.Create(context.Background(), &proto.UserRequest{
+		FirstName: "Tendi",
+		Username:  "tendif",
+		Password:  "hello",
 	})
 
 	if err != nil {

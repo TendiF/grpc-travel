@@ -2,13 +2,18 @@ package utils
 
 import (
 	"context"
+	userModel "deall-package/models/users"
 	"deall-package/types"
+	"deall-package/utils/database"
+	"strconv"
+
 	"fmt"
 	"log"
 	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -53,12 +58,23 @@ func UnaryInterceptorHandler(ctx context.Context,
 			return "", status.Error(codes.InvalidArgument, "Token not authorize")
 		}
 
+		endpoint := map[string]string{
+			"/proto.UsersService/Create": "0",
+			"/proto.UsersService/Get":    "0",
+			"/proto.UsersService/Update": "0",
+			"/proto.UsersService/Delete": "0",
+		}
+
+		if endpoint[info.FullMethod] != "" && endpoint[info.FullMethod] != strconv.Itoa(claims.Role) {
+			return nil, status.Error(codes.InvalidArgument, "Don't have access")
+		}
+
 		md.Append("uid", claims.Uid)
 
 		ctx = metadata.NewIncomingContext(ctx, md)
 	}
 
-	CreateConnection(3 * time.Second)
+	database.CreateConnection(3 * time.Second)
 
 	// Calls the handler
 	h, err := handler(ctx, req)
@@ -87,4 +103,30 @@ func ComparePasswords(hashedPwd string, plainPwd []byte) bool {
 	}
 
 	return true
+}
+
+func InitAdmin() {
+	var user types.User
+
+	user = userModel.FindByUsername("admin")
+
+	if user.ID == (primitive.ObjectID{}) {
+		user.Username = "admin"
+		user.Email = "admin@admin.com"
+		user.Role = 0
+		user.Password = HashAndSalt([]byte("admin"))
+
+		userModel.Insert(user)
+	}
+
+	user = userModel.FindByUsername("user")
+
+	if user.ID == (primitive.ObjectID{}) {
+		user.Username = "user"
+		user.Email = "user@user.com"
+		user.Role = 1
+		user.Password = HashAndSalt([]byte("user"))
+
+		userModel.Insert(user)
+	}
 }

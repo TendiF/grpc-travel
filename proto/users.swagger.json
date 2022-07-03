@@ -206,6 +206,14 @@
     }
   },
   "definitions": {
+    "protoRole": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "user"
+      ],
+      "default": "admin"
+    },
     "protoUserGetResponse": {
       "type": "object",
       "properties": {
@@ -247,6 +255,9 @@
         },
         "username": {
           "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/protoRole"
         }
       }
     },
@@ -284,6 +295,9 @@
         },
         "username": {
           "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/protoRole"
         }
       }
     },

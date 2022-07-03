@@ -5,7 +5,7 @@ import (
 	userModel "deall-package/models/users"
 	"deall-package/proto"
 	types "deall-package/types"
-	"deall-package/utils"
+	"deall-package/utils/utils"
 	"fmt"
 	"log"
 	"math"
@@ -66,6 +66,7 @@ func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.
 	user.Password = utils.HashAndSalt([]byte(params.Password))
 	user.Address = params.Address
 	user.Username = params.Username
+	user.Role = params.Role.Descriptor().Index()
 
 	_, err = userModel.Insert(user)
 
@@ -153,7 +154,8 @@ func (s *Server) Login(ctx context.Context, params *proto.UserLoginRequest) (*pr
 
 	if utils.ComparePasswords(user.Password, []byte(params.Password)) {
 		claims := &types.Claims{
-			Uid: user.ID.Hex(),
+			Uid:  user.ID.Hex(),
+			Role: user.Role,
 			StandardClaims: jwt.StandardClaims{
 				ExpiresAt: time.Now().Add(12 * time.Hour).Unix(),
 			},
@@ -232,6 +234,7 @@ func (s *Server) UserProfile(ctx context.Context, params *proto.UserProfileReque
 	profile.Email = user.Email
 	profile.Username = user.Username
 	profile.Gender = user.Gender
+	profile.Role = proto.Role(user.Role)
 
 	response.Profile = &profile
 

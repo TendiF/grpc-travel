@@ -3,29 +3,26 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"net"
 	"os"
+	"time"
 
 	"deall-package/gateway"
 	"deall-package/proto"
 	users "deall-package/service/users"
-	"deall-package/utils"
+	"deall-package/utils/database"
+	"deall-package/utils/utils"
 
 	"github.com/golang/glog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
-var (
-	endpoint = flag.String("endpoint", "localhost:5000", "endpoint of the gRPC service")
-	network  = flag.String("network", "tcp", `one of "tcp" or "unix". Must be consistent to -endpoint`)
-)
-
 func serveHttp() {
 	// gRPC gateway section
 	API_PORT := os.Getenv("API_PORT")
-	fmt.Println("API_PORT", API_PORT)
+	GRPC_PORT := os.Getenv("GRPC_PORT")
+
 	if API_PORT == "" {
 		API_PORT = "5001"
 	}
@@ -36,8 +33,8 @@ func serveHttp() {
 	opts := gateway.Options{
 		Addr: ":" + API_PORT,
 		GRPCServer: gateway.Endpoint{
-			Network: *network,
-			Addr:    *endpoint,
+			Network: "tcp",
+			Addr:    "localhost:" + GRPC_PORT,
 		},
 	}
 	if err := gateway.Run(ctx, opts); err != nil {
@@ -47,7 +44,8 @@ func serveHttp() {
 
 func main() {
 	godotenv.Load(".env")
-
+	database.CreateConnection(3 * time.Second)
+	utils.InitAdmin()
 	GRPC_PORT := os.Getenv("GRPC_PORT")
 
 	if GRPC_PORT == "" {
