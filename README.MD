@@ -8,3 +8,15 @@ go run server.go --logtostderr=1
 
 Run Test
 go test ./service/users
+
+User Creds
+
+`{
+  "username": "admin",
+  "password": "admin"
+}`
+
+`{
+  "username": "user",
+  "password": "user"
+}`
