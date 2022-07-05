@@ -17,3 +17,5 @@ services:
       - mongo
   mongo:
     image: mongo:4.4.14
+    volumes:
+      - ./mongodata:/db/data
