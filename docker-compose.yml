@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    ports:
+      - "5001:5001"
+      - "5000:5000"
+    stdin_open: true  # -i
+    tty: true         # -t
+    links:
+      - mongo
+  mongo:
+    image: mongo:4.4.14
