@@ -25,7 +25,10 @@ spec:
         io.kompose.service: mongo
     spec:
       containers:
-        - image: mongo:4.4.14
+        - env:
+            - name: GET_HOSTS_FROM
+              value: dns
+          image: mongo:4.4.14
           name: mongo
           ports:
             - containerPort: 27017

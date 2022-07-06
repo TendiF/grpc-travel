@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert
+    kompose.service.type: LoadBalancer
     kompose.version: 1.26.1 (HEAD)
   creationTimestamp: null
   labels:
@@ -18,13 +19,17 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert
+        kompose.service.type: LoadBalancer
         kompose.version: 1.26.1 (HEAD)
       creationTimestamp: null
       labels:
         io.kompose.service: server
     spec:
       containers:
-        - image: grpc-travel_server:latest
+        - env:
+            - name: GET_HOSTS_FROM
+              value: dns
+          image: grpc-travel_server:latest
           name: server
           imagePullPolicy: IfNotPresent
           ports:
