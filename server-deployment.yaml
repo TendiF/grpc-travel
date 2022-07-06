@@ -24,8 +24,9 @@ spec:
         io.kompose.service: server
     spec:
       containers:
-        - image: server
+        - image: grpc-travel_server:latest
           name: server
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5001
             - containerPort: 5000

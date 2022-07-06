@@ -24,4 +24,4 @@ User Creds
 kubecl
 https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/
 1. this app use `kompose convert`
-2. `kubectl apply -f server-service.yaml,mongo-claim0-persistentvolumeclaim.yaml,server-deployment.yaml,mongo-deployment.yaml`
+2. `kubectl apply -f mongo-service.yaml,server-service.yaml,mongo-claim0-persistentvolumeclaim.yaml,server-deployment.yaml,mongo-deployment.yaml`

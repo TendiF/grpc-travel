@@ -1,6 +1,7 @@
 version: '3.3'
 services:
   server:
+    container_name: grpc-server-go
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -17,5 +18,7 @@ services:
       - mongo
   mongo:
     image: mongo:4.4.14
+    ports:
+      - "27017:27017"
     volumes:
       - ./mongodata:/db/data
