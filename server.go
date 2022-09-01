@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"flag"
+	"log"
 	"net"
 	"os"
 	"time"
@@ -16,6 +18,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 func serveHttp() {
@@ -42,6 +45,22 @@ func serveHttp() {
 	}
 }
 
+func loadTLSCredentials() (credentials.TransportCredentials, error) {
+	// Load server's certificate and private key
+	serverCert, err := tls.LoadX509KeyPair("cert/server-cert.pem", "cert/server-key.pem")
+	if err != nil {
+		return nil, err
+	}
+
+	// Create the credentials and return it
+	config := &tls.Config{
+		Certificates: []tls.Certificate{serverCert},
+		ClientAuth:   tls.NoClientCert,
+	}
+
+	return credentials.NewTLS(config), nil
+}
+
 func main() {
 	godotenv.Load(".env")
 	database.CreateConnection(3 * time.Second)
@@ -61,7 +80,13 @@ func main() {
 		glog.Errorf("fail to listen on port %s: %v", GRPC_PORT, err)
 	}
 
+	tlsCredentials, err := loadTLSCredentials()
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
+
 	grpcServer := grpc.NewServer(
+		grpc.Creds(tlsCredentials),
 		utils.WithServerUnaryInterceptor(),
 	)
 
