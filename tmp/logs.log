@@ -1,0 +1,24 @@
+2022/12/27 14:44:42 ACCESS|/proto.UsersService/Login|username:"Hello" password:"Hello"
+2022/12/27 14:44:42 crypto/bcrypt: hashedSecret too short to be a bcrypted password
+2022/12/27 14:44:50 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:45:21 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:45:21 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:45:22 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:45:22 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:45:22 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:46:43 ACCESS|/proto.UsersService/Login|username:"admin" password:"admin"
+2022/12/27 14:47:14 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:47:15 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:47:15 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:47:15 ACCESS|/proto.UsersService/Create|first_name:"Hello" last_name:"Hello" gender:"Hello" email:"Hello" password:"Hello" address:"Hello" username:"Hello"
+2022/12/27 14:48:00 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:20 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:20 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:20 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:21 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:21 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:49 ACCESS|/proto.UsersService/Login|username:"admin" password:"admin"
+2022/12/27 14:48:57 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:58 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:48:58 ACCESS|/proto.UsersService/UserProfile|
+2022/12/27 14:49:04 ACCESS|/proto.UsersService/UserProfile|

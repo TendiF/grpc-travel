@@ -1,4 +1,5 @@
 version: v1
+# buff plugins https://buf.build/plugins
 plugins:
   # generate go structs for protocol buffer defination
   - remote: buf.build/library/plugins/go:v1.27.1-1
@@ -23,3 +24,11 @@ plugins:
     out: ./
     opt: 
       - allow_delete_body=true
+  # for js client
+  - plugin: buf.build/grpc/web
+    out: ./
+    opt:
+      - mode=grpcweb
+  # dependencies
+  - plugin: buf.build/protocolbuffers/js
+    out: ./
