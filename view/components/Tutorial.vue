@@ -15,7 +15,7 @@ export default Vue.extend({
   mounted(){
     console.log('mounted', this.$store.getters.getCounter)
     console.log('mounted', this.$store)
-    this.$store.dispatch('fetchCounter', 'hai')
+    this.$store.dispatch('login', 'hai')
   }
 })
 </script>

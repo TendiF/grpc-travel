@@ -28,3 +28,9 @@ services:
       - ./mongodata:/db/data
     environment:
       - GET_HOSTS_FROM=dns
+  # TODO trial & error envoy proxy in this docker
+  envoy:
+    container_name: envoy-proxy
+    build:
+      context: .
+      dockerfile: ./envoy/Dockerfile

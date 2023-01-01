@@ -24,11 +24,13 @@ plugins:
     out: ./
     opt: 
       - allow_delete_body=true
-  # for js client
   - plugin: buf.build/grpc/web
     out: ./
     opt:
       - mode=grpcweb
-  # dependencies
+      - import_style=typescript
   - plugin: buf.build/protocolbuffers/js
     out: ./
+    opt:
+      - import_style=commonjs,binary
+    revision: 1

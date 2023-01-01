@@ -4,6 +4,9 @@ https://docs.buf.build/installation
 2. $ buf generate
 
 # Run Application #
+
+### use envoy proxy to translate HTTP/1 to HTTP/2 for now grpc-web is required
+`envoy -c envoy.yaml`
 ### use go
 `go run server.go --logtostderr=1`
 

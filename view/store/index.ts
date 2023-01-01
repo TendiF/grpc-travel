@@ -1,18 +1,5 @@
-var PROTO_PATH_USER = __dirname + '/../../proto/users.proto';
-var grpc = require('@grpc/grpc-js');
-var protoLoader = require('@grpc/proto-loader');
-// Suggested options for similarity to existing grpc.load behavior
-var packageDefinition = protoLoader.loadSync(
-    PROTO_PATH_USER,
-    {keepCase: true,
-     longs: String,
-     enums: String,
-     defaults: true,
-     oneofs: true
-    });
-var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
-
-console.log('protoDescriptor', protoDescriptor)
+import {  UsersServiceClient } from '../../proto/UsersServiceClientPb'
+import { userLoginRequest } from '../../proto/users_pb'
 
 export const state = () => ({
     counter: 0
@@ -37,5 +24,14 @@ export const actions = {
         const res = { data: 10 };
         state.counter = res.data;
         return res.data;
+    },
+
+    async login(state: any, payload: any) {
+        let client = new UsersServiceClient('http://0.0.0.0:5002', {}, {})
+        let request = new userLoginRequest()
+        request.setUsername('admin')
+        request.setPassword('admin')
+        let response = await client.login(request,{})
+        console.log('response', response.getToken())
     }
 }
