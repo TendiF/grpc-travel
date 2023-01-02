@@ -1,2 +1,4 @@
 tmp/runner-build
 .env
+cert/*.pem
+cert/*.srl
