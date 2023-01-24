@@ -1,0 +1,71 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "./proto";
+
+message CustomerCreateRequest {
+    string No               = 1;
+    string NIK              = 2;
+    string Nama             = 3;
+    string StatusKK         = 4;
+    string NoKK             = 5;
+    string TanggalLahir     = 6;
+    string Usia             = 7;
+    string KotaKab          = 8;
+    string Kecamatan        = 9;
+    string DesaKelurahan    = 10;
+    string Kampung          = 11;
+    string RT               = 12;
+    string RW               = 13;
+    string Kol              = 14;
+    string Syahidan         = 15;
+    string PJ               = 16;
+    string Note             = 17;
+}
+
+message CustomerResponse {
+    string message = 1;
+}
+
+message CustomerGetResponse {
+    string message = 1;
+    int64 total_page = 2;
+    repeated CustomerCreateRequest data = 3;
+}
+
+message CustomerGetRequest {
+    int64 page = 1;
+    int64 per_page = 2;
+    string search = 3;
+}
+
+message CustomerUpdateRequest {
+    string No               = 1;
+    string NIK              = 2;
+    string Nama             = 3;
+    string StatusKK         = 4;
+    string NoKK             = 5;
+    string TanggalLahir     = 6;
+    string Usia             = 7;
+    string KotaKab          = 8;
+    string Kecamatan        = 9;
+    string DesaKelurahan    = 10;
+    string Kampung          = 11;
+    string RT               = 12;
+    string RW               = 13;
+    string Kol              = 14;
+    string Syahidan         = 15;
+    string PJ               = 16;
+    string Note             = 17;
+    string ID               = 18;
+}
+
+service CustomersService {
+
+    rpc Create(CustomerCreateRequest) returns (CustomerResponse) {}
+
+    rpc Get(CustomerGetRequest) returns (CustomerGetResponse) {}
+
+    rpc Update(CustomerUpdateRequest) returns (CustomerResponse) {}
+}
+

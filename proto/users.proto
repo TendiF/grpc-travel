@@ -3,50 +3,84 @@ package proto;
 
 option go_package = "./proto";
 
-import "google/api/annotations.proto";
-import "protoc-gen-openapiv2/options/annotations.proto";
 
+enum Role {
+    admin = 0;
+    user = 1;
+}
 
 message UserRequest {
-    string country_code         = 1;
-    string phone                = 2;
-    string first_name           = 3;
-    string last_name            = 4;
-    string gender               = 5;
-    string email                = 6;
-    string birth_date           = 7;
-    string password             = 8;
-    string document_number      = 9;
-    string address              = 10;
+    string first_name           = 1;
+    string last_name            = 2;
+    string gender               = 3;
+    string email                = 4;
+    string password             = 5;
+    string address              = 6;
+    string username             = 7;
+    Role role                   = 8;
 }
 
 message UserResponse {
     string message = 1;
 }
 
-message verifyReqeust {
-    string token = 1;
-    string verification_code = 2;
+message UserUpdateRequest {
+    string id                   = 1;
+    string first_name           = 2;
+    string last_name            = 3;
+    string gender               = 4;
+    string email                = 5;
+    string password             = 6;
+    string address              = 7;
+    string username             = 8;
+    Role role                   = 9;
+}
+
+message UserGetRequest {
+    int64 page = 1;
+    int64 per_page = 2;
+    string search = 3;
+}
+
+message UserGetResponse {
+    string message = 1;
+    int64 total_page = 2;
+    repeated UserUpdateRequest data = 3;
+}
+
+message userDeleteRequest {
+    string id  = 1;
+}
+
+message userLoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message userLoginResponse {
+    string message = 1;
+    string token = 2;
 }
 
 
+message userProfileRequest {}
+message userProfileResponse {
+    string message     = 1;
+    UserUpdateRequest profile = 2;
+}
+
 service UsersService {
-    rpc Register(UserRequest) returns (UserResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/register"
-        };
-    }
 
-    rpc Login(UserRequest) returns (UserResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/login"
-        };
-    }
+    rpc Delete(userDeleteRequest) returns (UserResponse) {}
 
-    rpc VerifyCode(verifyReqeust) returns (UserResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/verify"
-        };
-    }
+    rpc Get(UserGetRequest) returns (UserGetResponse) {}
+
+    rpc Update(UserUpdateRequest) returns (UserResponse) {}
+
+    rpc Create(UserRequest) returns (UserResponse) {}
+
+    rpc UserProfile(userProfileRequest) returns (userProfileResponse) {}
+
+    rpc Login(userLoginRequest) returns (userLoginResponse) {}
 }
 

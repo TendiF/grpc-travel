@@ -2,30 +2,31 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"flag"
-	"fmt"
+	"log"
 	"net"
 	"os"
+	"time"
 
-	"travel/gateway"
-	"travel/proto"
-	users "travel/service/users"
-	"travel/utils"
+	"deall-package/gateway"
+	"deall-package/proto"
+	"deall-package/service/customers"
+	users "deall-package/service/users"
+	"deall-package/utils/database"
+	"deall-package/utils/utils"
 
 	"github.com/golang/glog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
-)
-
-var (
-	endpoint = flag.String("endpoint", "localhost:9000", "endpoint of the gRPC service")
-	network  = flag.String("network", "tcp", `one of "tcp" or "unix". Must be consistent to -endpoint`)
+	"google.golang.org/grpc/credentials"
 )
 
 func serveHttp() {
 	// gRPC gateway section
 	API_PORT := os.Getenv("API_PORT")
-	fmt.Println("API_PORT", API_PORT)
+	GRPC_PORT := os.Getenv("GRPC_PORT")
+
 	if API_PORT == "" {
 		API_PORT = "5001"
 	}
@@ -36,8 +37,8 @@ func serveHttp() {
 	opts := gateway.Options{
 		Addr: ":" + API_PORT,
 		GRPCServer: gateway.Endpoint{
-			Network: *network,
-			Addr:    *endpoint,
+			Network: "tcp",
+			Addr:    "localhost:" + GRPC_PORT,
 		},
 	}
 	if err := gateway.Run(ctx, opts); err != nil {
@@ -45,9 +46,26 @@ func serveHttp() {
 	}
 }
 
+func loadTLSCredentials() (credentials.TransportCredentials, error) {
+	// Load server's certificate and private key
+	serverCert, err := tls.LoadX509KeyPair("cert/server-cert.pem", "cert/server-key.pem")
+	if err != nil {
+		return nil, err
+	}
+
+	// Create the credentials and return it
+	config := &tls.Config{
+		Certificates: []tls.Certificate{serverCert},
+		ClientAuth:   tls.NoClientCert,
+	}
+
+	return credentials.NewTLS(config), nil
+}
+
 func main() {
 	godotenv.Load(".env")
-
+	database.CreateConnection(3 * time.Second)
+	utils.InitAdmin()
 	GRPC_PORT := os.Getenv("GRPC_PORT")
 
 	if GRPC_PORT == "" {
@@ -55,9 +73,6 @@ func main() {
 	}
 
 	go serveHttp()
-	go utils.RunUploadServer()
-
-	utils.InitDB()
 
 	// gRPC server section
 	lis, err := net.Listen("tcp", ":"+GRPC_PORT)
@@ -66,13 +81,18 @@ func main() {
 		glog.Errorf("fail to listen on port %s: %v", GRPC_PORT, err)
 	}
 
+	tlsCredentials, err := loadTLSCredentials()
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
+
 	grpcServer := grpc.NewServer(
+		grpc.Creds(tlsCredentials),
 		utils.WithServerUnaryInterceptor(),
 	)
 
-	s := users.Server{}
-
-	proto.RegisterUsersServiceServer(grpcServer, &s)
+	proto.RegisterUsersServiceServer(grpcServer, &users.Server{})
+	proto.RegisterCustomersServiceServer(grpcServer, &customers.Server{})
 
 	if err := grpcServer.Serve(lis); err != nil {
 		glog.Errorf("Failed to serve gRPC server over port %: %v", GRPC_PORT, err)

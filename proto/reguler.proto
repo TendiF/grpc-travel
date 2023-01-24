@@ -1,0 +1,57 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "./proto";
+
+message RegulerCreateRequest {
+    string CustomerID       = 1;
+    string BulanTahun       = 2;
+    string Infaq            = 3;
+    string Zakat            = 4;
+    string Shadaqah         = 5;
+    string Ikhsan           = 6;
+    string Sabil            = 7;
+    string TabunganFitrah   = 8;
+    string TabunganQurban   = 9;
+    string Bina             = 10;
+}
+
+message RegulerResponse {
+    string message = 1;
+}
+
+message RegulerGetResponse {
+    string message = 1;
+    int64 total_page = 2;
+    repeated RegulerCreateRequest data = 3;
+}
+
+message RegulerGetRequest {
+    int64 page = 1;
+    int64 per_page = 2;
+    string search = 3;
+}
+
+message RegulerUpdateRequest {
+    string CustomerID       = 1;
+    string BulanTahun       = 2;
+    string Infaq            = 3;
+    string Zakat            = 4;
+    string Shadaqah         = 5;
+    string Ikhsan           = 6;
+    string Sabil            = 7;
+    string TabunganFitrah   = 8;
+    string TabunganQurban   = 9;
+    string Bina             = 10;
+    string ID               = 11;
+}
+
+service RegulersService {
+
+    rpc Create(RegulerCreateRequest) returns (RegulerResponse) {}
+
+    rpc Get(RegulerGetRequest) returns (RegulerGetResponse) {}
+
+    rpc Update(RegulerUpdateRequest) returns (RegulerResponse) {}
+}
+

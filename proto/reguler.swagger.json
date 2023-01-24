@@ -1,0 +1,109 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/reguler.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "RegulersService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "protoRegulerCreateRequest": {
+      "type": "object",
+      "properties": {
+        "CustomerID": {
+          "type": "string"
+        },
+        "BulanTahun": {
+          "type": "string"
+        },
+        "Infaq": {
+          "type": "string"
+        },
+        "Zakat": {
+          "type": "string"
+        },
+        "Shadaqah": {
+          "type": "string"
+        },
+        "Ikhsan": {
+          "type": "string"
+        },
+        "Sabil": {
+          "type": "string"
+        },
+        "TabunganFitrah": {
+          "type": "string"
+        },
+        "TabunganQurban": {
+          "type": "string"
+        },
+        "Bina": {
+          "type": "string"
+        }
+      }
+    },
+    "protoRegulerGetResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "totalPage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protoRegulerCreateRequest"
+          }
+        }
+      }
+    },
+    "protoRegulerResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

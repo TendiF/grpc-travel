@@ -2,190 +2,241 @@ package users
 
 import (
 	"context"
-	"math/rand"
+	userModel "deall-package/models/users"
+	"deall-package/proto"
+	types "deall-package/types"
+	"deall-package/utils/utils"
+	"fmt"
+	"log"
+	"math"
+	"net/mail"
 	"os"
 	"time"
 
-	"travel/proto"
-	types "travel/types"
-	"travel/utils"
-
 	"github.com/dgrijalva/jwt-go"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"google.golang.org/grpc/metadata"
 )
 
 type Server struct {
 	proto.UnimplementedUsersServiceServer
 }
 
-func (s *Server) Register(ctx context.Context, params *proto.UserRequest) (*proto.UserResponse, error) {
+func (s *Server) Create(ctx context.Context, params *proto.UserRequest) (*proto.UserResponse, error) {
 	var response proto.UserResponse
-
-	// generate verification code
-	numbers := [9]string{"1", "2", "3", "4", "5", "6", "7", "8", "9"}
-	max := 8
-	min := 0
-	verCode := numbers[rand.Intn(max-min+1)+min] + numbers[rand.Intn(max-min+1)+min] + numbers[rand.Intn(max-min+1)+min] + numbers[rand.Intn(max-min+1)+min]
+	var user types.User
+	fmt.Println("params", params)
 
 	// verify empty data
-	if params.CountryCode == "" || params.Email == "" || params.Phone == "" || params.FirstName == "" || params.LastName == "" {
+	if params.Email == "" || params.FirstName == "" || params.LastName == "" {
 		response.Message = "fill required data"
 		return &response, nil
 	}
 
-	// CEQUENS_API_KEY :=  os.Getenv("CEQUENS_API_KEY")
-	// send sms
-	// client := &http.Client{}
-	// postBody, _ := json.Marshal(map[string]interface{}{
-	// 	"senderName":      "Yalla Pay",
-	// 	"messageType":     "text",
-	// 	"messageText":     "code: " + verCode,
-	// 	"recipients":      params.CountryCode + params.Phone,
-	// 	"acknowledgement": 0,
-	// 	"flashing":        0,
-	// })
-
-	// responseBody := bytes.NewBuffer(postBody)
-	// req, err := http.NewRequest("POST", "https://apis.cequens.com/sms/v1/messages", responseBody)
-	// req.Header.Add("Authorization", "Bearer " + CEQUENS_API_KEY)
-	// req.Header.Add("Content-Type", "application/json")
-	// resp, err := client.Do(req)
-
-	// if resp.StatusCode != 200 {
-	// 	response.Message = resp.Status
-	// 	return &response, nil
-	// }
-
-	// defer resp.Body.Close()
-
-	//validate by phone number
-	query := `SELECT phone, country_code FROM public.users WHERE country_code='` + params.CountryCode + `' AND phone='` + params.Phone + `'`
-
-	rows, err := utils.DB.Query(query)
-
-	for rows.Next() {
-		var phone string
-		var country_code string
-		err = rows.Scan(&phone, &country_code)
-		if phone != "" {
-			response.Message = "already register:" + country_code + phone
-			return &response, nil
-		}
-	}
-
-	query = `INSERT INTO public.users (status, country_code, phone, first_name, last_name, gender, email, birth_date, password, document_number, address, verification_code)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
-
-	_, err = utils.DB.Exec(query, "register", params.CountryCode, params.Phone, params.FirstName, params.LastName, params.Gender, params.Email, params.BirthDate, utils.HashAndSalt([]byte(params.Password)), params.DocumentNumber, params.Address, verCode)
+	_, err := mail.ParseAddress(params.Email)
 
 	if err != nil {
-		response.Message = err.Error()
-		return &response, err
-	}
-
-	response.Message = "Success"
-
-	return &response, nil
-}
-
-func (s *Server) Login(ctx context.Context, params *proto.UserRequest) (*proto.UserResponse, error) {
-	var response proto.UserResponse
-
-	query := `SELECT id, password, email FROM users 
-	WHERE (country_code=$1 AND phone=$2) 
-	OR (email=$3)`
-
-	rows, err := utils.DB.Query(query, params.CountryCode, params.Phone, params.Email)
-
-	if err != nil {
-		response.Message = err.Error()
-		return &response, err
-	}
-
-	for rows.Next() {
-		var id string
-		var password string
-		var email string
-		err = rows.Scan(&id, &password, &email)
-		if utils.ComparePasswords(password, []byte(params.Password)) {
-			claims := &types.Claims{
-				Uid: id,
-				StandardClaims: jwt.StandardClaims{
-					ExpiresAt: time.Now().Add(12 * time.Hour).Unix(),
-				},
-			}
-
-			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-			tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SIGNATURE_KEY")))
-
-			if err != nil {
-				response.Message = err.Error()
-				return &response, err
-			}
-
-			response.Message = tokenString
-		} else {
-			response.Message = "wrong email/phone or password"
-		}
-
+		response.Message = "invalid email"
 		return &response, nil
 	}
 
-	response.Message = "Account not found"
+	users := userModel.Find(bson.M{
+		"email": params.Email,
+	}, 0, 0)
+
+	if len(users) >= 1 {
+		response.Message = "email user " + params.Email + " already exist"
+		return &response, nil
+	}
+
+	users = userModel.Find(bson.M{
+		"username": params.Username,
+	}, 0, 0)
+
+	if len(users) >= 1 {
+		response.Message = "username user " + params.Username + " already exist"
+		return &response, nil
+	}
+
+	user.FirstName = params.FirstName
+	user.LastName = params.LastName
+	user.Gender = params.Gender
+	user.Email = params.Email
+	user.Password = utils.HashAndSalt([]byte(params.Password))
+	user.Address = params.Address
+	user.Username = params.Username
+	user.Role = params.Role.Descriptor().Index()
+
+	_, err = userModel.Insert(user)
+
+	if err != nil {
+		response.Message = "Fail"
+	} else {
+		response.Message = "Success"
+	}
 
 	return &response, nil
 }
 
-func (s *Server) VerifyCode(ctx context.Context, params *proto.VerifyReqeust) (*proto.UserResponse, error) {
+func (s *Server) Update(ctx context.Context, params *proto.UserUpdateRequest) (*proto.UserResponse, error) {
 	var response proto.UserResponse
+	var user types.User
 
-	var claims types.Claims
-	token := params.Token
+	userFormDB := userModel.FindById(params.Id)
 
-	tkn, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_SIGNATURE_KEY")), nil
-	})
-
-	if err != nil || !tkn.Valid || claims == (types.Claims{}) {
-		response.Message = err.Error()
-		return &response, err
+	if userFormDB.ID.Hex() == "000000000000000000000000" {
+		response.Message = "user not found"
+		return &response, nil
 	}
 
-	query := `SELECT verification_code, status FROM users WHERE id=$1`
-	rows, err := utils.DB.Query(query, claims.Uid)
+	// verify empty data
+	if params.Id == "" || params.Email == "" || params.FirstName == "" || params.LastName == "" {
+		response.Message = "fill required data"
+		return &response, nil
+	}
+
+	_, err := mail.ParseAddress(params.Email)
 
 	if err != nil {
-		response.Message = err.Error()
-		return &response, err
+		response.Message = "invalid email"
+		return &response, nil
 	}
 
-	for rows.Next() {
-		var verification_code string
-		var status string
-		err = rows.Scan(&verification_code, &status)
+	user.FirstName = params.FirstName
+	user.LastName = params.LastName
+	user.Gender = params.Gender
+	user.Email = params.Email
+	user.Password = utils.HashAndSalt([]byte(params.Password))
+	user.Address = params.Address
+	user.Username = params.Username
+
+	_, err = userModel.Update(params.Id, user)
+
+	if err != nil {
+		fmt.Println(err)
+		response.Message = "Fail"
+	} else {
+		response.Message = "Success"
+	}
+
+	return &response, nil
+}
+
+func (s *Server) Delete(ctx context.Context, params *proto.UserDeleteRequest) (*proto.UserResponse, error) {
+	var response proto.UserResponse
+
+	userFormDB := userModel.FindById(params.Id)
+
+	if userFormDB.ID.Hex() == "000000000000000000000000" {
+		response.Message = "user not found"
+		return &response, nil
+	}
+
+	_, err := userModel.Delete(params.Id)
+
+	if err != nil {
+		fmt.Println(err)
+		response.Message = "Fail"
+	} else {
+		response.Message = "Success"
+	}
+
+	return &response, nil
+}
+
+func (s *Server) Login(ctx context.Context, params *proto.UserLoginRequest) (*proto.UserLoginResponse, error) {
+	var response proto.UserLoginResponse
+
+	user := userModel.FindOne(bson.M{
+		"username": params.Username,
+	})
+
+	if utils.ComparePasswords(user.Password, []byte(params.Password)) {
+		claims := &types.Claims{
+			Uid:  user.ID.Hex(),
+			Role: user.Role,
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: time.Now().Add(12 * time.Hour).Unix(),
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SIGNATURE_KEY")))
+
 		if err != nil {
-			response.Message = err.Error()
-			return &response, err
-		}
-
-		if status == "active" {
-			response.Message = "already active"
+			response.Message = "fail Signed token"
 			return &response, nil
 		}
-
-		if verification_code == params.VerificationCode {
-			query := `UPDATE users SET verification_code = '', status='active' WHERE id=$1`
-			_, err := utils.DB.Exec(query, claims.Uid)
-			if err != nil {
-				response.Message = err.Error()
-				return &response, err
-			}
-
-			response.Message = "Success Verify"
-			return &response, nil
-		}
+		response.Message = "success"
+		response.Token = tokenString
+	} else {
+		response.Message = "wrong username or password"
 	}
 
-	response.Message = "Fail verify"
+	return &response, nil
+}
+
+func (s *Server) Get(ctx context.Context, params *proto.UserGetRequest) (*proto.UserGetResponse, error) {
+	var response proto.UserGetResponse
+
+	paramsBson := bson.M{}
+	paramsBson["$or"] = []interface{}{
+		bson.M{"email": primitive.Regex{Pattern: params.Search, Options: "i"}},
+	}
+
+	if params.Page == 0 {
+		params.Page = 1
+	}
+
+	if params.PerPage == 0 {
+		params.PerPage = 10
+	}
+
+	users := userModel.Find(paramsBson, params.PerPage, (params.PerPage*params.Page)-params.PerPage)
+	totalData := userModel.CountDocuments(paramsBson)
+	response.TotalPage = int64(math.RoundToEven(float64(totalData%params.PerPage)) + 1)
+
+	for _, val := range users {
+		user := proto.UserUpdateRequest{
+			Id:        val.ID.String(),
+			FirstName: val.FirstName,
+			LastName:  val.LastName,
+			Gender:    val.Gender,
+			Email:     val.Email,
+			Address:   val.Address,
+		}
+		response.Data = append(response.Data, &user)
+	}
+
+	response.Message = "Success"
+	return &response, nil
+}
+
+func (s *Server) UserProfile(ctx context.Context, params *proto.UserProfileRequest) (*proto.UserProfileResponse, error) {
+	var response proto.UserProfileResponse
+	var profile proto.UserUpdateRequest
+	md, ok := metadata.FromIncomingContext(ctx)
+
+	if !ok {
+		log.Fatal("get metadata error")
+	}
+
+	if len(md["uid"]) == 0 {
+		response.Message = "invalid token uid"
+		return &response, nil
+	}
+
+	user := userModel.FindById(md["uid"][0])
+
+	profile.FirstName = user.FirstName
+	profile.LastName = user.LastName
+	profile.Email = user.Email
+	profile.Username = user.Username
+	profile.Gender = user.Gender
+	profile.Role = proto.Role(user.Role)
+
+	response.Profile = &profile
 
 	return &response, nil
 }

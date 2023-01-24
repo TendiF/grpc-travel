@@ -1,0 +1,130 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/customers.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "CustomersService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "protoCustomerCreateRequest": {
+      "type": "object",
+      "properties": {
+        "No": {
+          "type": "string"
+        },
+        "NIK": {
+          "type": "string"
+        },
+        "Nama": {
+          "type": "string"
+        },
+        "StatusKK": {
+          "type": "string"
+        },
+        "NoKK": {
+          "type": "string"
+        },
+        "TanggalLahir": {
+          "type": "string"
+        },
+        "Usia": {
+          "type": "string"
+        },
+        "KotaKab": {
+          "type": "string"
+        },
+        "Kecamatan": {
+          "type": "string"
+        },
+        "DesaKelurahan": {
+          "type": "string"
+        },
+        "Kampung": {
+          "type": "string"
+        },
+        "RT": {
+          "type": "string"
+        },
+        "RW": {
+          "type": "string"
+        },
+        "Kol": {
+          "type": "string"
+        },
+        "Syahidan": {
+          "type": "string"
+        },
+        "PJ": {
+          "type": "string"
+        },
+        "Note": {
+          "type": "string"
+        }
+      }
+    },
+    "protoCustomerGetResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "totalPage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protoCustomerCreateRequest"
+          }
+        }
+      }
+    },
+    "protoCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

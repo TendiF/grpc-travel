@@ -6,7 +6,7 @@ import (
 	"net"
 	"net/http"
 
-	"travel/proto"
+	"deall-package/proto"
 
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	_ "google.golang.org/genproto/googleapis/rpc/errdetails"
