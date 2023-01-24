@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "proto/users.proto",
+    "title": "proto/reguler.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "UsersService"
+      "name": "RegulersService"
     }
   ],
   "consumes": [
@@ -17,15 +17,42 @@
   ],
   "paths": {},
   "definitions": {
-    "protoRole": {
-      "type": "string",
-      "enum": [
-        "admin",
-        "user"
-      ],
-      "default": "admin"
+    "protoRegulerCreateRequest": {
+      "type": "object",
+      "properties": {
+        "CustomerID": {
+          "type": "string"
+        },
+        "BulanTahun": {
+          "type": "string"
+        },
+        "Infaq": {
+          "type": "string"
+        },
+        "Zakat": {
+          "type": "string"
+        },
+        "Shadaqah": {
+          "type": "string"
+        },
+        "Ikhsan": {
+          "type": "string"
+        },
+        "Sabil": {
+          "type": "string"
+        },
+        "TabunganFitrah": {
+          "type": "string"
+        },
+        "TabunganQurban": {
+          "type": "string"
+        },
+        "Bina": {
+          "type": "string"
+        }
+      }
     },
-    "protoUserGetResponse": {
+    "protoRegulerGetResponse": {
       "type": "object",
       "properties": {
         "message": {
@@ -38,48 +65,16 @@
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/protoUserUpdateRequest"
+            "$ref": "#/definitions/protoRegulerCreateRequest"
           }
         }
       }
     },
-    "protoUserResponse": {
+    "protoRegulerResponse": {
       "type": "object",
       "properties": {
         "message": {
           "type": "string"
-        }
-      }
-    },
-    "protoUserUpdateRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "gender": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "role": {
-          "$ref": "#/definitions/protoRole"
         }
       }
     },
@@ -91,28 +86,6 @@
         }
       },
       "additionalProperties": {}
-    },
-    "protouserLoginResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        },
-        "token": {
-          "type": "string"
-        }
-      }
-    },
-    "protouserProfileResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        },
-        "profile": {
-          "$ref": "#/definitions/protoUserUpdateRequest"
-        }
-      }
     },
     "rpcStatus": {
       "type": "object",

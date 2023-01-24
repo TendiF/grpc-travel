@@ -1,6 +1,7 @@
 import * as jspb from 'google-protobuf'
 
 
+
 export class UserRequest extends jspb.Message {
   getFirstName(): string;
   setFirstName(value: string): UserRequest;

@@ -195,7 +195,7 @@ func (s *Server) Get(ctx context.Context, params *proto.UserGetRequest) (*proto.
 
 	users := userModel.Find(paramsBson, params.PerPage, (params.PerPage*params.Page)-params.PerPage)
 	totalData := userModel.CountDocuments(paramsBson)
-	response.TotalPage = int64(math.RoundToEven(float64(totalData) / float64(params.PerPage)))
+	response.TotalPage = int64(math.RoundToEven(float64(totalData%params.PerPage)) + 1)
 
 	for _, val := range users {
 		user := proto.UserUpdateRequest{

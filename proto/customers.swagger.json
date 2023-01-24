@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "proto/users.proto",
+    "title": "proto/customers.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "UsersService"
+      "name": "CustomersService"
     }
   ],
   "consumes": [
@@ -17,15 +17,63 @@
   ],
   "paths": {},
   "definitions": {
-    "protoRole": {
-      "type": "string",
-      "enum": [
-        "admin",
-        "user"
-      ],
-      "default": "admin"
+    "protoCustomerCreateRequest": {
+      "type": "object",
+      "properties": {
+        "No": {
+          "type": "string"
+        },
+        "NIK": {
+          "type": "string"
+        },
+        "Nama": {
+          "type": "string"
+        },
+        "StatusKK": {
+          "type": "string"
+        },
+        "NoKK": {
+          "type": "string"
+        },
+        "TanggalLahir": {
+          "type": "string"
+        },
+        "Usia": {
+          "type": "string"
+        },
+        "KotaKab": {
+          "type": "string"
+        },
+        "Kecamatan": {
+          "type": "string"
+        },
+        "DesaKelurahan": {
+          "type": "string"
+        },
+        "Kampung": {
+          "type": "string"
+        },
+        "RT": {
+          "type": "string"
+        },
+        "RW": {
+          "type": "string"
+        },
+        "Kol": {
+          "type": "string"
+        },
+        "Syahidan": {
+          "type": "string"
+        },
+        "PJ": {
+          "type": "string"
+        },
+        "Note": {
+          "type": "string"
+        }
+      }
     },
-    "protoUserGetResponse": {
+    "protoCustomerGetResponse": {
       "type": "object",
       "properties": {
         "message": {
@@ -38,48 +86,16 @@
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/protoUserUpdateRequest"
+            "$ref": "#/definitions/protoCustomerCreateRequest"
           }
         }
       }
     },
-    "protoUserResponse": {
+    "protoCustomerResponse": {
       "type": "object",
       "properties": {
         "message": {
           "type": "string"
-        }
-      }
-    },
-    "protoUserUpdateRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "gender": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "role": {
-          "$ref": "#/definitions/protoRole"
         }
       }
     },
@@ -91,28 +107,6 @@
         }
       },
       "additionalProperties": {}
-    },
-    "protouserLoginResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        },
-        "token": {
-          "type": "string"
-        }
-      }
-    },
-    "protouserProfileResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        },
-        "profile": {
-          "$ref": "#/definitions/protoUserUpdateRequest"
-        }
-      }
     },
     "rpcStatus": {
       "type": "object",

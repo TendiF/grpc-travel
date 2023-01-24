@@ -1,37 +1,57 @@
+import {  CustomersServiceClient } from '../../proto/CustomersServiceClientPb'
 import {  UsersServiceClient } from '../../proto/UsersServiceClientPb'
 import { userLoginRequest } from '../../proto/users_pb'
+import { CustomerGetRequest } from '../../proto/customers_pb'
 
-export const state = () => ({
-    counter: 0
-})
+const baseUrl = 'http://0.0.0.0:5002'
+
+type IndexStoreState = {
+    token: string
+}
+
+let stateObj: IndexStoreState = {
+    token: '',
+}
+
+type ActionContext = {
+    commit: Function,
+    dispatch: Function,
+    getters: any,
+    state: IndexStoreState,
+}
+export const state = () => (stateObj)
 
 export const getters = {
-    getCounter(state: any) {
-        return state.counter
+    getToken(state: IndexStoreState) {
+        return state.token
     }
 }
 
 export const mutations = {
-    increment(state: any) {
-        state.counter++
+    setToken(state: IndexStoreState, token: string) {
+        state.token = token
     }
 }
 
 export const actions = {
-    async fetchCounter(state: any, payload: any) {
-        // make request
-        console.log('payload', payload)
-        const res = { data: 10 };
-        state.counter = res.data;
-        return res.data;
+    async login(context: ActionContext, payload: userLoginRequest) {
+        let client = new UsersServiceClient(baseUrl, {}, {})
+        return client.login(payload,{}).catch(error => {
+            console.log('need to handle', error)
+        })
     },
 
-    async login(state: any, payload: any) {
-        let client = new UsersServiceClient('http://0.0.0.0:5002', {}, {})
-        let request = new userLoginRequest()
-        request.setUsername('admin')
-        request.setPassword('admin')
-        let response = await client.login(request,{})
-        console.log('response', response.getToken())
+    async getCustomers(context: ActionContext, payload: CustomerGetRequest) {
+        let client = new CustomersServiceClient(baseUrl, {}, {})
+        return await client.get(payload, {
+            authorization: context.getters.getToken
+        }).catch(error => {
+            if(error.code && error.code === 16){
+                (this as any).$router.push('/')
+            }
+            console.log('need to handle', error)
+        })
     }
+
+
 }

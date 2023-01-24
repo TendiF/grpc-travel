@@ -47,7 +47,7 @@ func UnaryInterceptorHandler(ctx context.Context,
 		token := md["authorization"]
 
 		if len(token) == 0 {
-			return "", status.Error(codes.InvalidArgument, "Token not provided")
+			return "", status.Error(codes.Unauthenticated, "Token not provided")
 		}
 
 		tkn, err := jwt.ParseWithClaims(token[0], &claims, func(token *jwt.Token) (interface{}, error) {
@@ -55,7 +55,7 @@ func UnaryInterceptorHandler(ctx context.Context,
 		})
 
 		if err != nil || !tkn.Valid || claims == (types.Claims{}) {
-			return "", status.Error(codes.InvalidArgument, "Token not authorize")
+			return "", status.Error(codes.Unauthenticated, "Token not authorize")
 		}
 
 		endpoint := map[string]string{
@@ -66,7 +66,7 @@ func UnaryInterceptorHandler(ctx context.Context,
 		}
 
 		if endpoint[info.FullMethod] != "" && endpoint[info.FullMethod] != strconv.Itoa(claims.Role) {
-			return nil, status.Error(codes.InvalidArgument, "Don't have access")
+			return nil, status.Error(codes.PermissionDenied, "Don't have access")
 		}
 
 		md.Append("uid", claims.Uid)
@@ -115,6 +115,7 @@ func InitAdmin() {
 		user.Email = "admin@admin.com"
 		user.Role = 0
 		user.Password = HashAndSalt([]byte("admin"))
+		user.CodeMerchant = "35"
 
 		userModel.Insert(user)
 	}
@@ -126,6 +127,7 @@ func InitAdmin() {
 		user.Email = "user@user.com"
 		user.Role = 1
 		user.Password = HashAndSalt([]byte("user"))
+		user.CodeMerchant = "35"
 
 		userModel.Insert(user)
 	}
