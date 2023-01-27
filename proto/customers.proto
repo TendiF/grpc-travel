@@ -4,6 +4,10 @@ package proto;
 option go_package = "./proto";
 
 message CustomerCreateRequest {
+    repeated Customer data = 3;
+}
+
+message Customer {
     string No               = 1;
     string NIK              = 2;
     string Nama             = 3;
@@ -30,7 +34,7 @@ message CustomerResponse {
 message CustomerGetResponse {
     string message = 1;
     int64 total_page = 2;
-    repeated CustomerCreateRequest data = 3;
+    repeated Customer data = 3;
 }
 
 message CustomerGetRequest {

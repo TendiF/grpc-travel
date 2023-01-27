@@ -1,7 +1,7 @@
 import {  CustomersServiceClient } from '../../proto/CustomersServiceClientPb'
 import {  UsersServiceClient } from '../../proto/UsersServiceClientPb'
 import { userLoginRequest } from '../../proto/users_pb'
-import { CustomerGetRequest } from '../../proto/customers_pb'
+import { CustomerGetRequest, CustomerCreateRequest } from '../../proto/customers_pb'
 
 const baseUrl = 'http://0.0.0.0:5002'
 
@@ -51,6 +51,20 @@ export const actions = {
             }
             console.log('need to handle', error)
         })
+    },
+
+    async addCustomer(context: ActionContext, payload: CustomerCreateRequest) {
+        let client = new CustomersServiceClient(baseUrl, {}, {})
+
+        return await client.create(payload, {
+            authorization: context.getters.getToken
+        }).catch(error => {
+            if(error.code && error.code === 16){
+                (this as any).$router.push('/')
+            }
+            console.log('need to handle', error)
+        })
+
     }
 
 

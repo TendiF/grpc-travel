@@ -6,9 +6,9 @@ import (
 	userModel "deall-package/models/users"
 	"deall-package/proto"
 	"deall-package/types"
-	"fmt"
 	"log"
 	"math"
+	"strconv"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -21,39 +21,39 @@ type Server struct {
 
 func (s *Server) Create(ctx context.Context, params *proto.CustomerCreateRequest) (*proto.CustomerResponse, error) {
 	var response proto.CustomerResponse
-	var customer types.Customers
+	var customers []interface{}
+	var customer types.Customer
 
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		log.Fatal("get metadata error")
 	}
 	user := userModel.FindById(md["uid"][0])
+	success := 0
+	for _, customerData := range params.Data {
 
-	customer.No = params.No
-	customer.NIK = params.NIK
-	customer.Nama = params.Nama
-	customer.StatusKK = params.StatusKK
-	customer.NoKK = params.NoKK
-	customer.KotaKab = params.KotaKab
-	customer.Kecamatan = params.Kecamatan
-	customer.DesaKelurahan = params.DesaKelurahan
-	customer.Kampung = params.Kampung
-	customer.RT = params.RT
-	customer.RW = params.RW
-	customer.Kol = params.Kol
-	customer.Syahidan = params.Syahidan
-	customer.PJ = params.PJ
-	customer.CodeMerchant = user.CodeMerchant
+		customer.No = customerData.No
+		customer.NIK = customerData.NIK
+		customer.Nama = customerData.Nama
+		customer.StatusKK = customerData.StatusKK
+		customer.NoKK = customerData.NoKK
+		customer.KotaKab = customerData.KotaKab
+		customer.Kecamatan = customerData.Kecamatan
+		customer.DesaKelurahan = customerData.DesaKelurahan
+		customer.Kampung = customerData.Kampung
+		customer.RT = customerData.RT
+		customer.RW = customerData.RW
+		customer.Kol = customerData.Kol
+		customer.Syahidan = customerData.Syahidan
+		customer.PJ = customerData.PJ
+		customer.CodeMerchant = user.CodeMerchant
 
-	createdCustomer, err := customerModel.Insert(customer)
-
-	if err != nil {
-		response.Message = "fail"
-	} else {
-		response.Message = "success"
+		customers = append(customers, customer)
 	}
 
-	fmt.Println(createdCustomer)
+	customerModel.InsertMany(customers)
+
+	response.Message = "success insert : " + strconv.Itoa(success)
 
 	return &response, nil
 }
@@ -79,7 +79,7 @@ func (s *Server) Get(ctx context.Context, params *proto.CustomerGetRequest) (*pr
 	response.TotalPage = int64(math.RoundToEven(float64(totalData%params.PerPage)) + 1)
 
 	for _, val := range customers {
-		var customer proto.CustomerCreateRequest
+		var customer proto.Customer
 		customer.No = val.No
 		customer.NIK = val.NIK
 		customer.Nama = val.Nama

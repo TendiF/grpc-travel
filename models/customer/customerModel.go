@@ -15,12 +15,18 @@ import (
 
 var collection = "customer"
 
-func Insert(customer types.Customers) (*mongo.InsertOneResult, error) {
+func Insert(customer types.Customer) (*mongo.InsertOneResult, error) {
 	mongDB := database.MongoDB
 
 	customer.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
 
 	return mongDB.Collection(collection).InsertOne(database.MongoContext, customer)
+}
+
+func InsertMany(customers []interface{}) (*mongo.InsertManyResult, error) {
+	mongDB := database.MongoDB
+
+	return mongDB.Collection(collection).InsertMany(database.MongoContext, customers)
 }
 
 func Count(params bson.M) int64 {
@@ -33,7 +39,7 @@ func Count(params bson.M) int64 {
 	return number
 }
 
-func Find(params bson.M, limit int64, skip int64) []types.Customers {
+func Find(params bson.M, limit int64, skip int64) []types.Customer {
 	mongDB := database.MongoDB
 
 	options := options.FindOptions{}
@@ -43,22 +49,22 @@ func Find(params bson.M, limit int64, skip int64) []types.Customers {
 	if err != nil {
 		fmt.Println(err)
 	}
-	var customers []types.Customers
+	var Customer []types.Customer
 	for crsr.Next(database.MongoContext) {
-		var row types.Customers
+		var row types.Customer
 		err := crsr.Decode(&row)
 		if err != nil {
 			fmt.Println("err Decode", err)
 		}
-		customers = append(customers, row)
+		Customer = append(Customer, row)
 	}
 
-	return customers
+	return Customer
 }
 
-func FindById(id string) types.Customers {
+func FindById(id string) types.Customer {
 	mongoDB := database.MongoDB
-	var customer types.Customers
+	var customer types.Customer
 
 	objectId, err := primitive.ObjectIDFromHex(id)
 
@@ -75,9 +81,9 @@ func FindById(id string) types.Customers {
 	return customer
 }
 
-func Update(id string, params types.Customers) types.Customers {
+func Update(id string, params types.Customer) types.Customer {
 	mongoDB := database.MongoDB
-	var customer types.Customers
+	var customer types.Customer
 
 	params.ModifiedAt = primitive.NewDateTimeFromTime(time.Now())
 

@@ -17,7 +17,7 @@
   ],
   "paths": {},
   "definitions": {
-    "protoCustomerCreateRequest": {
+    "protoCustomer": {
       "type": "object",
       "properties": {
         "No": {
@@ -86,7 +86,7 @@
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/protoCustomerCreateRequest"
+            "$ref": "#/definitions/protoCustomer"
           }
         }
       }

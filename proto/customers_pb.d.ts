@@ -3,56 +3,10 @@ import * as jspb from 'google-protobuf'
 
 
 export class CustomerCreateRequest extends jspb.Message {
-  getNo(): string;
-  setNo(value: string): CustomerCreateRequest;
-
-  getNik(): string;
-  setNik(value: string): CustomerCreateRequest;
-
-  getNama(): string;
-  setNama(value: string): CustomerCreateRequest;
-
-  getStatuskk(): string;
-  setStatuskk(value: string): CustomerCreateRequest;
-
-  getNokk(): string;
-  setNokk(value: string): CustomerCreateRequest;
-
-  getTanggallahir(): string;
-  setTanggallahir(value: string): CustomerCreateRequest;
-
-  getUsia(): string;
-  setUsia(value: string): CustomerCreateRequest;
-
-  getKotakab(): string;
-  setKotakab(value: string): CustomerCreateRequest;
-
-  getKecamatan(): string;
-  setKecamatan(value: string): CustomerCreateRequest;
-
-  getDesakelurahan(): string;
-  setDesakelurahan(value: string): CustomerCreateRequest;
-
-  getKampung(): string;
-  setKampung(value: string): CustomerCreateRequest;
-
-  getRt(): string;
-  setRt(value: string): CustomerCreateRequest;
-
-  getRw(): string;
-  setRw(value: string): CustomerCreateRequest;
-
-  getKol(): string;
-  setKol(value: string): CustomerCreateRequest;
-
-  getSyahidan(): string;
-  setSyahidan(value: string): CustomerCreateRequest;
-
-  getPj(): string;
-  setPj(value: string): CustomerCreateRequest;
-
-  getNote(): string;
-  setNote(value: string): CustomerCreateRequest;
+  getDataList(): Array<Customer>;
+  setDataList(value: Array<Customer>): CustomerCreateRequest;
+  clearDataList(): CustomerCreateRequest;
+  addData(value?: Customer, index?: number): Customer;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CustomerCreateRequest.AsObject;
@@ -63,6 +17,72 @@ export class CustomerCreateRequest extends jspb.Message {
 }
 
 export namespace CustomerCreateRequest {
+  export type AsObject = {
+    dataList: Array<Customer.AsObject>,
+  }
+}
+
+export class Customer extends jspb.Message {
+  getNo(): string;
+  setNo(value: string): Customer;
+
+  getNik(): string;
+  setNik(value: string): Customer;
+
+  getNama(): string;
+  setNama(value: string): Customer;
+
+  getStatuskk(): string;
+  setStatuskk(value: string): Customer;
+
+  getNokk(): string;
+  setNokk(value: string): Customer;
+
+  getTanggallahir(): string;
+  setTanggallahir(value: string): Customer;
+
+  getUsia(): string;
+  setUsia(value: string): Customer;
+
+  getKotakab(): string;
+  setKotakab(value: string): Customer;
+
+  getKecamatan(): string;
+  setKecamatan(value: string): Customer;
+
+  getDesakelurahan(): string;
+  setDesakelurahan(value: string): Customer;
+
+  getKampung(): string;
+  setKampung(value: string): Customer;
+
+  getRt(): string;
+  setRt(value: string): Customer;
+
+  getRw(): string;
+  setRw(value: string): Customer;
+
+  getKol(): string;
+  setKol(value: string): Customer;
+
+  getSyahidan(): string;
+  setSyahidan(value: string): Customer;
+
+  getPj(): string;
+  setPj(value: string): Customer;
+
+  getNote(): string;
+  setNote(value: string): Customer;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Customer.AsObject;
+  static toObject(includeInstance: boolean, msg: Customer): Customer.AsObject;
+  static serializeBinaryToWriter(message: Customer, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Customer;
+  static deserializeBinaryFromReader(message: Customer, reader: jspb.BinaryReader): Customer;
+}
+
+export namespace Customer {
   export type AsObject = {
     no: string,
     nik: string,
@@ -109,10 +129,10 @@ export class CustomerGetResponse extends jspb.Message {
   getTotalPage(): number;
   setTotalPage(value: number): CustomerGetResponse;
 
-  getDataList(): Array<CustomerCreateRequest>;
-  setDataList(value: Array<CustomerCreateRequest>): CustomerGetResponse;
+  getDataList(): Array<Customer>;
+  setDataList(value: Array<Customer>): CustomerGetResponse;
   clearDataList(): CustomerGetResponse;
-  addData(value?: CustomerCreateRequest, index?: number): CustomerCreateRequest;
+  addData(value?: Customer, index?: number): Customer;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CustomerGetResponse.AsObject;
@@ -126,7 +146,7 @@ export namespace CustomerGetResponse {
   export type AsObject = {
     message: string,
     totalPage: number,
-    dataList: Array<CustomerCreateRequest.AsObject>,
+    dataList: Array<Customer.AsObject>,
   }
 }
 

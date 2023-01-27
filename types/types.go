@@ -26,7 +26,7 @@ type User struct {
 	CodeMerchant string             `bson:"code_merchant,omitempty" json:"code_merchant"`
 }
 
-type Customers struct {
+type Customer struct {
 	ID            primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	CreatedAt     primitive.DateTime `bson:"created_at,omitempty" json:"created_at"`
 	ModifiedAt    primitive.DateTime `bson:"modified_at,omitempty" json:"modified_at"`
@@ -35,6 +35,7 @@ type Customers struct {
 	Nama          string             `bson:"nama,omitempty" json:"nama"`
 	StatusKK      string             `bson:"status_kk,omitempty" json:"status_kk"`
 	NoKK          string             `bson:"no_kk,omitempty" json:"no_kk"`
+	Status        string             `bson:"status,omitempty" json:"status"`
 	TanggalLahir  string             `bson:"tanggal_lahir,omitempty" json:"tanggal_lahir"`
 	Usia          string             `bson:"usia,omitempty" json:"usia"`
 	KotaKab       string             `bson:"kota_kab,omitempty" json:"kota_kab"`
