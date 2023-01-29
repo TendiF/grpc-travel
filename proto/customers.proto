@@ -8,23 +8,23 @@ message CustomerCreateRequest {
 }
 
 message Customer {
-    string No               = 1;
-    string NIK              = 2;
-    string Nama             = 3;
+    string NIK              = 1;
+    string Nama             = 2;
+    string Status           = 3;
     string StatusKK         = 4;
     string NoKK             = 5;
     string TanggalLahir     = 6;
-    string Usia             = 7;
-    string KotaKab          = 8;
-    string Kecamatan        = 9;
-    string DesaKelurahan    = 10;
-    string Kampung          = 11;
-    string RT               = 12;
-    string RW               = 13;
-    string Kol              = 14;
-    string Syahidan         = 15;
-    string PJ               = 16;
-    string Note             = 17;
+    string KotaKab          = 7;
+    string Kecamatan        = 8;
+    string DesaKelurahan    = 9;
+    string Kampung          = 10;
+    string RT               = 11;
+    string RW               = 12;
+    string Kol              = 13;
+    string Syahidan         = 14;
+    string PJ               = 15;
+    string Note             = 16;
+    string ID               = 17;
 }
 
 message CustomerResponse {
@@ -44,24 +44,23 @@ message CustomerGetRequest {
 }
 
 message CustomerUpdateRequest {
-    string No               = 1;
-    string NIK              = 2;
-    string Nama             = 3;
+    string NIK              = 1;
+    string Nama             = 2;
+    string Status           = 3;
     string StatusKK         = 4;
     string NoKK             = 5;
     string TanggalLahir     = 6;
-    string Usia             = 7;
-    string KotaKab          = 8;
-    string Kecamatan        = 9;
-    string DesaKelurahan    = 10;
-    string Kampung          = 11;
-    string RT               = 12;
-    string RW               = 13;
-    string Kol              = 14;
-    string Syahidan         = 15;
-    string PJ               = 16;
-    string Note             = 17;
-    string ID               = 18;
+    string KotaKab          = 7;
+    string Kecamatan        = 8;
+    string DesaKelurahan    = 9;
+    string Kampung          = 10;
+    string RT               = 11;
+    string RW               = 12;
+    string Kol              = 13;
+    string Syahidan         = 14;
+    string PJ               = 15;
+    string Note             = 16;
+    string ID               = 17;
 }
 
 service CustomersService {

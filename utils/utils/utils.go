@@ -42,6 +42,8 @@ func UnaryInterceptorHandler(ctx context.Context,
 		log.Fatal("get metadata error")
 	}
 
+	database.CreateConnection(3 * time.Second)
+
 	if info.FullMethod != "/proto.UsersService/Login" {
 		var claims types.Claims
 		token := md["authorization"]
@@ -70,11 +72,20 @@ func UnaryInterceptorHandler(ctx context.Context,
 		}
 
 		md.Append("uid", claims.Uid)
+		user := userModel.FindById(claims.Uid)
+
+		if user == (types.User{}) {
+			return nil, status.Error(codes.PermissionDenied, "User not found "+claims.Uid)
+		}
+
+		md.Append("code_merchant", user.CodeMerchant)
+
+		if user.CodeMerchant == "" {
+			return nil, status.Error(codes.PermissionDenied, "Code merchant not set")
+		}
 
 		ctx = metadata.NewIncomingContext(ctx, md)
 	}
-
-	database.CreateConnection(3 * time.Second)
 
 	// Calls the handler
 	h, err := handler(ctx, req)

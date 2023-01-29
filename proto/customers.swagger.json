@@ -20,13 +20,13 @@
     "protoCustomer": {
       "type": "object",
       "properties": {
-        "No": {
-          "type": "string"
-        },
         "NIK": {
           "type": "string"
         },
         "Nama": {
+          "type": "string"
+        },
+        "Status": {
           "type": "string"
         },
         "StatusKK": {
@@ -36,9 +36,6 @@
           "type": "string"
         },
         "TanggalLahir": {
-          "type": "string"
-        },
-        "Usia": {
           "type": "string"
         },
         "KotaKab": {
@@ -69,6 +66,9 @@
           "type": "string"
         },
         "Note": {
+          "type": "string"
+        },
+        "ID": {
           "type": "string"
         }
       }

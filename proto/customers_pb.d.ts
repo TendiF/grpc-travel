@@ -23,14 +23,14 @@ export namespace CustomerCreateRequest {
 }
 
 export class Customer extends jspb.Message {
-  getNo(): string;
-  setNo(value: string): Customer;
-
   getNik(): string;
   setNik(value: string): Customer;
 
   getNama(): string;
   setNama(value: string): Customer;
+
+  getStatus(): string;
+  setStatus(value: string): Customer;
 
   getStatuskk(): string;
   setStatuskk(value: string): Customer;
@@ -40,9 +40,6 @@ export class Customer extends jspb.Message {
 
   getTanggallahir(): string;
   setTanggallahir(value: string): Customer;
-
-  getUsia(): string;
-  setUsia(value: string): Customer;
 
   getKotakab(): string;
   setKotakab(value: string): Customer;
@@ -74,6 +71,9 @@ export class Customer extends jspb.Message {
   getNote(): string;
   setNote(value: string): Customer;
 
+  getId(): string;
+  setId(value: string): Customer;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Customer.AsObject;
   static toObject(includeInstance: boolean, msg: Customer): Customer.AsObject;
@@ -84,13 +84,12 @@ export class Customer extends jspb.Message {
 
 export namespace Customer {
   export type AsObject = {
-    no: string,
     nik: string,
     nama: string,
+    status: string,
     statuskk: string,
     nokk: string,
     tanggallahir: string,
-    usia: string,
     kotakab: string,
     kecamatan: string,
     desakelurahan: string,
@@ -101,6 +100,7 @@ export namespace Customer {
     syahidan: string,
     pj: string,
     note: string,
+    id: string,
   }
 }
 
@@ -177,14 +177,14 @@ export namespace CustomerGetRequest {
 }
 
 export class CustomerUpdateRequest extends jspb.Message {
-  getNo(): string;
-  setNo(value: string): CustomerUpdateRequest;
-
   getNik(): string;
   setNik(value: string): CustomerUpdateRequest;
 
   getNama(): string;
   setNama(value: string): CustomerUpdateRequest;
+
+  getStatus(): string;
+  setStatus(value: string): CustomerUpdateRequest;
 
   getStatuskk(): string;
   setStatuskk(value: string): CustomerUpdateRequest;
@@ -194,9 +194,6 @@ export class CustomerUpdateRequest extends jspb.Message {
 
   getTanggallahir(): string;
   setTanggallahir(value: string): CustomerUpdateRequest;
-
-  getUsia(): string;
-  setUsia(value: string): CustomerUpdateRequest;
 
   getKotakab(): string;
   setKotakab(value: string): CustomerUpdateRequest;
@@ -241,13 +238,12 @@ export class CustomerUpdateRequest extends jspb.Message {
 
 export namespace CustomerUpdateRequest {
   export type AsObject = {
-    no: string,
     nik: string,
     nama: string,
+    status: string,
     statuskk: string,
     nokk: string,
     tanggallahir: string,
-    usia: string,
     kotakab: string,
     kecamatan: string,
     desakelurahan: string,

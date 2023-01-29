@@ -43,8 +43,14 @@ func Find(params bson.M, limit int64, skip int64) []types.Customer {
 	mongDB := database.MongoDB
 
 	options := options.FindOptions{}
-	options.Limit = &limit
-	options.Skip = &skip
+	if limit > 0 {
+		options.Limit = &limit
+	}
+
+	if skip > 0 {
+		options.Skip = &skip
+	}
+
 	crsr, err := mongDB.Collection(collection).Find(database.MongoContext, params, &options)
 	if err != nil {
 		fmt.Println(err)

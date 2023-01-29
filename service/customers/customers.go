@@ -3,7 +3,6 @@ package customers
 import (
 	"context"
 	customerModel "deall-package/models/customer"
-	userModel "deall-package/models/users"
 	"deall-package/proto"
 	"deall-package/types"
 	"log"
@@ -28,13 +27,12 @@ func (s *Server) Create(ctx context.Context, params *proto.CustomerCreateRequest
 	if !ok {
 		log.Fatal("get metadata error")
 	}
-	user := userModel.FindById(md["uid"][0])
 	success := 0
 	for _, customerData := range params.Data {
 
-		customer.No = customerData.No
 		customer.NIK = customerData.NIK
 		customer.Nama = customerData.Nama
+		customer.Status = customerData.Status
 		customer.StatusKK = customerData.StatusKK
 		customer.NoKK = customerData.NoKK
 		customer.KotaKab = customerData.KotaKab
@@ -45,8 +43,9 @@ func (s *Server) Create(ctx context.Context, params *proto.CustomerCreateRequest
 		customer.RW = customerData.RW
 		customer.Kol = customerData.Kol
 		customer.Syahidan = customerData.Syahidan
+		customer.TanggalLahir = customerData.TanggalLahir
 		customer.PJ = customerData.PJ
-		customer.CodeMerchant = user.CodeMerchant
+		customer.CodeMerchant = md["code_merchant"][0]
 
 		customers = append(customers, customer)
 	}
@@ -80,13 +79,13 @@ func (s *Server) Get(ctx context.Context, params *proto.CustomerGetRequest) (*pr
 
 	for _, val := range customers {
 		var customer proto.Customer
-		customer.No = val.No
+		customer.ID = val.ID.Hex()
 		customer.NIK = val.NIK
 		customer.Nama = val.Nama
+		customer.Status = val.Status
 		customer.StatusKK = val.StatusKK
 		customer.NoKK = val.NoKK
 		customer.TanggalLahir = val.TanggalLahir
-		customer.Usia = val.Usia
 		customer.KotaKab = val.KotaKab
 		customer.Kecamatan = val.Kecamatan
 		customer.DesaKelurahan = val.DesaKelurahan

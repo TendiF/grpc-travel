@@ -30,14 +30,12 @@ type Customer struct {
 	ID            primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	CreatedAt     primitive.DateTime `bson:"created_at,omitempty" json:"created_at"`
 	ModifiedAt    primitive.DateTime `bson:"modified_at,omitempty" json:"modified_at"`
-	No            string             `bson:"no,omitempty" json:"no"`
 	NIK           string             `bson:"nik,omitempty" json:"nik"`
 	Nama          string             `bson:"nama,omitempty" json:"nama"`
 	StatusKK      string             `bson:"status_kk,omitempty" json:"status_kk"`
 	NoKK          string             `bson:"no_kk,omitempty" json:"no_kk"`
 	Status        string             `bson:"status,omitempty" json:"status"`
 	TanggalLahir  string             `bson:"tanggal_lahir,omitempty" json:"tanggal_lahir"`
-	Usia          string             `bson:"usia,omitempty" json:"usia"`
 	KotaKab       string             `bson:"kota_kab,omitempty" json:"kota_kab"`
 	Kecamatan     string             `bson:"kecamatan,omitempty" json:"kecamatan"`
 	DesaKelurahan string             `bson:"desa_kelurahan,omitempty" json:"desa_kelurahan"`
