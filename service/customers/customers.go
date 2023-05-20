@@ -32,6 +32,7 @@ func (s *Server) Create(ctx context.Context, params *proto.CustomerCreateRequest
 
 		customer.NIK = customerData.NIK
 		customer.Nama = customerData.Nama
+		customer.Jk = customerData.Jk
 		customer.Status = customerData.Status
 		customer.StatusKK = customerData.StatusKK
 		customer.NoKK = customerData.NoKK
@@ -82,6 +83,7 @@ func (s *Server) Get(ctx context.Context, params *proto.CustomerGetRequest) (*pr
 		customer.ID = val.ID.Hex()
 		customer.NIK = val.NIK
 		customer.Nama = val.Nama
+		customer.Jk = val.Jk
 		customer.Status = val.Status
 		customer.StatusKK = val.StatusKK
 		customer.NoKK = val.NoKK

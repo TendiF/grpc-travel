@@ -61,11 +61,13 @@ export default Vue.extend({
   name: "Login",
   data: () => {
     return {
-      username: "",
-      password: "",
+      username: "admin",
+      password: "admin",
     };
   },
-  mounted() {},
+  mounted() {
+    this.doLogin()
+  },
   methods: {
     async doLogin() {
       if (!this.username || !this.password) {

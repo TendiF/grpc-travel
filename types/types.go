@@ -32,6 +32,7 @@ type Customer struct {
 	ModifiedAt    primitive.DateTime `bson:"modified_at,omitempty" json:"modified_at"`
 	NIK           string             `bson:"nik,omitempty" json:"nik"`
 	Nama          string             `bson:"nama,omitempty" json:"nama"`
+	Jk            string             `bson:"jk,omitempty" json:"jk"`
 	StatusKK      string             `bson:"status_kk,omitempty" json:"status_kk"`
 	NoKK          string             `bson:"no_kk,omitempty" json:"no_kk"`
 	Status        string             `bson:"status,omitempty" json:"status"`

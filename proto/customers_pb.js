@@ -347,21 +347,22 @@ proto.proto.Customer.toObject = function(includeInstance, msg) {
   var f, obj = {
     nik: jspb.Message.getFieldWithDefault(msg, 1, ""),
     nama: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    status: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    statuskk: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    nokk: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    tanggallahir: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    kotakab: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    kecamatan: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    desakelurahan: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    kampung: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    rt: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    rw: jspb.Message.getFieldWithDefault(msg, 12, ""),
-    kol: jspb.Message.getFieldWithDefault(msg, 13, ""),
-    syahidan: jspb.Message.getFieldWithDefault(msg, 14, ""),
-    pj: jspb.Message.getFieldWithDefault(msg, 15, ""),
-    note: jspb.Message.getFieldWithDefault(msg, 16, ""),
-    id: jspb.Message.getFieldWithDefault(msg, 17, "")
+    jk: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    status: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    statuskk: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    nokk: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    tanggallahir: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    kotakab: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    kecamatan: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    desakelurahan: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    kampung: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    rt: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    rw: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    kol: jspb.Message.getFieldWithDefault(msg, 14, ""),
+    syahidan: jspb.Message.getFieldWithDefault(msg, 15, ""),
+    pj: jspb.Message.getFieldWithDefault(msg, 16, ""),
+    note: jspb.Message.getFieldWithDefault(msg, 17, ""),
+    id: jspb.Message.getFieldWithDefault(msg, 18, "")
   };
 
   if (includeInstance) {
@@ -408,61 +409,65 @@ proto.proto.Customer.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setStatus(value);
+      msg.setJk(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setStatuskk(value);
+      msg.setStatus(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setNokk(value);
+      msg.setStatuskk(value);
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTanggallahir(value);
+      msg.setNokk(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setKotakab(value);
+      msg.setTanggallahir(value);
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
-      msg.setKecamatan(value);
+      msg.setKotakab(value);
       break;
     case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setDesakelurahan(value);
+      msg.setKecamatan(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setKampung(value);
+      msg.setDesakelurahan(value);
       break;
     case 11:
       var value = /** @type {string} */ (reader.readString());
-      msg.setRt(value);
+      msg.setKampung(value);
       break;
     case 12:
       var value = /** @type {string} */ (reader.readString());
-      msg.setRw(value);
+      msg.setRt(value);
       break;
     case 13:
       var value = /** @type {string} */ (reader.readString());
-      msg.setKol(value);
+      msg.setRw(value);
       break;
     case 14:
       var value = /** @type {string} */ (reader.readString());
-      msg.setSyahidan(value);
+      msg.setKol(value);
       break;
     case 15:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPj(value);
+      msg.setSyahidan(value);
       break;
     case 16:
       var value = /** @type {string} */ (reader.readString());
-      msg.setNote(value);
+      msg.setPj(value);
       break;
     case 17:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNote(value);
+      break;
+    case 18:
       var value = /** @type {string} */ (reader.readString());
       msg.setId(value);
       break;
@@ -509,108 +514,115 @@ proto.proto.Customer.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getStatus();
+  f = message.getJk();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getStatuskk();
+  f = message.getStatus();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getNokk();
+  f = message.getStatuskk();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getTanggallahir();
+  f = message.getNokk();
   if (f.length > 0) {
     writer.writeString(
       6,
       f
     );
   }
-  f = message.getKotakab();
+  f = message.getTanggallahir();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
-  f = message.getKecamatan();
+  f = message.getKotakab();
   if (f.length > 0) {
     writer.writeString(
       8,
       f
     );
   }
-  f = message.getDesakelurahan();
+  f = message.getKecamatan();
   if (f.length > 0) {
     writer.writeString(
       9,
       f
     );
   }
-  f = message.getKampung();
+  f = message.getDesakelurahan();
   if (f.length > 0) {
     writer.writeString(
       10,
       f
     );
   }
-  f = message.getRt();
+  f = message.getKampung();
   if (f.length > 0) {
     writer.writeString(
       11,
       f
     );
   }
-  f = message.getRw();
+  f = message.getRt();
   if (f.length > 0) {
     writer.writeString(
       12,
       f
     );
   }
-  f = message.getKol();
+  f = message.getRw();
   if (f.length > 0) {
     writer.writeString(
       13,
       f
     );
   }
-  f = message.getSyahidan();
+  f = message.getKol();
   if (f.length > 0) {
     writer.writeString(
       14,
       f
     );
   }
-  f = message.getPj();
+  f = message.getSyahidan();
   if (f.length > 0) {
     writer.writeString(
       15,
       f
     );
   }
-  f = message.getNote();
+  f = message.getPj();
   if (f.length > 0) {
     writer.writeString(
       16,
       f
     );
   }
-  f = message.getId();
+  f = message.getNote();
   if (f.length > 0) {
     writer.writeString(
       17,
+      f
+    );
+  }
+  f = message.getId();
+  if (f.length > 0) {
+    writer.writeString(
+      18,
       f
     );
   }
@@ -654,10 +666,10 @@ proto.proto.Customer.prototype.setNama = function(value) {
 
 
 /**
- * optional string Status = 3;
+ * optional string Jk = 3;
  * @return {string}
  */
-proto.proto.Customer.prototype.getStatus = function() {
+proto.proto.Customer.prototype.getJk = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -666,16 +678,16 @@ proto.proto.Customer.prototype.getStatus = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setStatus = function(value) {
+proto.proto.Customer.prototype.setJk = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string StatusKK = 4;
+ * optional string Status = 4;
  * @return {string}
  */
-proto.proto.Customer.prototype.getStatuskk = function() {
+proto.proto.Customer.prototype.getStatus = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -684,16 +696,16 @@ proto.proto.Customer.prototype.getStatuskk = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setStatuskk = function(value) {
+proto.proto.Customer.prototype.setStatus = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string NoKK = 5;
+ * optional string StatusKK = 5;
  * @return {string}
  */
-proto.proto.Customer.prototype.getNokk = function() {
+proto.proto.Customer.prototype.getStatuskk = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -702,16 +714,16 @@ proto.proto.Customer.prototype.getNokk = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setNokk = function(value) {
+proto.proto.Customer.prototype.setStatuskk = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional string TanggalLahir = 6;
+ * optional string NoKK = 6;
  * @return {string}
  */
-proto.proto.Customer.prototype.getTanggallahir = function() {
+proto.proto.Customer.prototype.getNokk = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -720,16 +732,16 @@ proto.proto.Customer.prototype.getTanggallahir = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setTanggallahir = function(value) {
+proto.proto.Customer.prototype.setNokk = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
 /**
- * optional string KotaKab = 7;
+ * optional string TanggalLahir = 7;
  * @return {string}
  */
-proto.proto.Customer.prototype.getKotakab = function() {
+proto.proto.Customer.prototype.getTanggallahir = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -738,16 +750,16 @@ proto.proto.Customer.prototype.getKotakab = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setKotakab = function(value) {
+proto.proto.Customer.prototype.setTanggallahir = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional string Kecamatan = 8;
+ * optional string KotaKab = 8;
  * @return {string}
  */
-proto.proto.Customer.prototype.getKecamatan = function() {
+proto.proto.Customer.prototype.getKotakab = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
@@ -756,16 +768,16 @@ proto.proto.Customer.prototype.getKecamatan = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setKecamatan = function(value) {
+proto.proto.Customer.prototype.setKotakab = function(value) {
   return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
 /**
- * optional string DesaKelurahan = 9;
+ * optional string Kecamatan = 9;
  * @return {string}
  */
-proto.proto.Customer.prototype.getDesakelurahan = function() {
+proto.proto.Customer.prototype.getKecamatan = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
@@ -774,16 +786,16 @@ proto.proto.Customer.prototype.getDesakelurahan = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setDesakelurahan = function(value) {
+proto.proto.Customer.prototype.setKecamatan = function(value) {
   return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional string Kampung = 10;
+ * optional string DesaKelurahan = 10;
  * @return {string}
  */
-proto.proto.Customer.prototype.getKampung = function() {
+proto.proto.Customer.prototype.getDesakelurahan = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
@@ -792,16 +804,16 @@ proto.proto.Customer.prototype.getKampung = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setKampung = function(value) {
+proto.proto.Customer.prototype.setDesakelurahan = function(value) {
   return jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional string RT = 11;
+ * optional string Kampung = 11;
  * @return {string}
  */
-proto.proto.Customer.prototype.getRt = function() {
+proto.proto.Customer.prototype.getKampung = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
@@ -810,16 +822,16 @@ proto.proto.Customer.prototype.getRt = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setRt = function(value) {
+proto.proto.Customer.prototype.setKampung = function(value) {
   return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
 /**
- * optional string RW = 12;
+ * optional string RT = 12;
  * @return {string}
  */
-proto.proto.Customer.prototype.getRw = function() {
+proto.proto.Customer.prototype.getRt = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
@@ -828,16 +840,16 @@ proto.proto.Customer.prototype.getRw = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setRw = function(value) {
+proto.proto.Customer.prototype.setRt = function(value) {
   return jspb.Message.setProto3StringField(this, 12, value);
 };
 
 
 /**
- * optional string Kol = 13;
+ * optional string RW = 13;
  * @return {string}
  */
-proto.proto.Customer.prototype.getKol = function() {
+proto.proto.Customer.prototype.getRw = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
@@ -846,16 +858,16 @@ proto.proto.Customer.prototype.getKol = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setKol = function(value) {
+proto.proto.Customer.prototype.setRw = function(value) {
   return jspb.Message.setProto3StringField(this, 13, value);
 };
 
 
 /**
- * optional string Syahidan = 14;
+ * optional string Kol = 14;
  * @return {string}
  */
-proto.proto.Customer.prototype.getSyahidan = function() {
+proto.proto.Customer.prototype.getKol = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
@@ -864,16 +876,16 @@ proto.proto.Customer.prototype.getSyahidan = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setSyahidan = function(value) {
+proto.proto.Customer.prototype.setKol = function(value) {
   return jspb.Message.setProto3StringField(this, 14, value);
 };
 
 
 /**
- * optional string PJ = 15;
+ * optional string Syahidan = 15;
  * @return {string}
  */
-proto.proto.Customer.prototype.getPj = function() {
+proto.proto.Customer.prototype.getSyahidan = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
 };
 
@@ -882,16 +894,16 @@ proto.proto.Customer.prototype.getPj = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setPj = function(value) {
+proto.proto.Customer.prototype.setSyahidan = function(value) {
   return jspb.Message.setProto3StringField(this, 15, value);
 };
 
 
 /**
- * optional string Note = 16;
+ * optional string PJ = 16;
  * @return {string}
  */
-proto.proto.Customer.prototype.getNote = function() {
+proto.proto.Customer.prototype.getPj = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 16, ""));
 };
 
@@ -900,16 +912,16 @@ proto.proto.Customer.prototype.getNote = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setNote = function(value) {
+proto.proto.Customer.prototype.setPj = function(value) {
   return jspb.Message.setProto3StringField(this, 16, value);
 };
 
 
 /**
- * optional string ID = 17;
+ * optional string Note = 17;
  * @return {string}
  */
-proto.proto.Customer.prototype.getId = function() {
+proto.proto.Customer.prototype.getNote = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 17, ""));
 };
 
@@ -918,8 +930,26 @@ proto.proto.Customer.prototype.getId = function() {
  * @param {string} value
  * @return {!proto.proto.Customer} returns this
  */
-proto.proto.Customer.prototype.setId = function(value) {
+proto.proto.Customer.prototype.setNote = function(value) {
   return jspb.Message.setProto3StringField(this, 17, value);
+};
+
+
+/**
+ * optional string ID = 18;
+ * @return {string}
+ */
+proto.proto.Customer.prototype.getId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 18, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.Customer} returns this
+ */
+proto.proto.Customer.prototype.setId = function(value) {
+  return jspb.Message.setProto3StringField(this, 18, value);
 };
 
 

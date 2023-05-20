@@ -29,6 +29,9 @@ export class Customer extends jspb.Message {
   getNama(): string;
   setNama(value: string): Customer;
 
+  getJk(): string;
+  setJk(value: string): Customer;
+
   getStatus(): string;
   setStatus(value: string): Customer;
 
@@ -86,6 +89,7 @@ export namespace Customer {
   export type AsObject = {
     nik: string,
     nama: string,
+    jk: string,
     status: string,
     statuskk: string,
     nokk: string,

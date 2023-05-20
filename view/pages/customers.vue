@@ -79,7 +79,7 @@
               </div>
               <div class="pt-6">
                 <div class="space-y-3">
-                  <span class="font-medium text-gray-900">Status</span>
+                  <span class="font-medium text-gray-900">Layanan Dasar</span>
                   <div class="flex items-center">
                     <input
                       id="filter-mobile-category-0"
@@ -167,10 +167,12 @@
               <thead class="border-b font-medium dark:border-neutral-500">
                 <tr>
                   <th scope="col" class="px-6 py-4">Nama</th>
+                  <th scope="col" class="px-6 py-4">JK</th>
+                  <th scope="col" class="px-6 py-4">Status</th>
                   <th scope="col" class="px-6 py-4">KK</th>
                   <th scope="col" class="px-6 py-4">Desa/Kampung</th>
                   <th scope="col" class="px-6 py-4">PJ</th>
-                  <th scope="col" class="px-6 py-4">Status</th>
+                  <th scope="col" class="px-6 py-4">Layanan Dasar</th>
                 </tr>
               </thead>
               <tbody>
@@ -181,6 +183,12 @@
                 >
                   <td class="whitespace-nowrap px-6 py-4 font-medium">
                     {{ customer.nama }}
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">
+                    {{ customer.jk }}
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">
+                    {{ customer.status }}
                   </td>
                   <td class="whitespace-nowrap px-6 py-4">
                     {{ customer.nokk }}
@@ -222,7 +230,7 @@
         >
           Previous
         </button>
-        <span class="font-medium">Page {{page}}</span>
+        <span class="font-medium">Page {{page}} of {{totalPage}}</span>
         <button
           @click="setPage(page < totalPage ? page + 1 : totalPage)"
           class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -233,13 +241,10 @@
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p class="text-sm text-gray-700">
-            Showing
-            <span class="font-medium">1</span>
-            to
-            <span class="font-medium">10</span>
+            Page
+            <span class="font-medium">{{page}}</span>
             of
-            <span class="font-medium">97</span>
-            results
+            <span class="font-medium">{{totalPage}}</span>
           </p>
         </div>
         <div>
@@ -379,6 +384,7 @@ export default Vue.extend({
           let customer = new Customer();
           customer.setNik(customerData["NIK"]);
           customer.setNama(customerData["Nama Lengkap"]);
+          customer.setJk(customerData["JK"]);
           customer.setNokk(customerData["No KK"] + "");
           customer.setStatus(customerData["Status"] + "");
           customer.setStatuskk(customerData["Status KK"]);
@@ -421,6 +427,7 @@ export default Vue.extend({
           "ID",
           "NIK",
           "Nama Lengkap",
+          "JK",
           "Status KK",
           "No KK",
           "Status",
@@ -442,6 +449,7 @@ export default Vue.extend({
           customer.getId(),
           customer.getNik(),
           customer.getNama(),
+          customer.getJk(),
           customer.getStatuskk(),
           customer.getNokk(),
           customer.getStatus(),

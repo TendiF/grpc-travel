@@ -26,6 +26,9 @@
         "Nama": {
           "type": "string"
         },
+        "Jk": {
+          "type": "string"
+        },
         "Status": {
           "type": "string"
         },
