@@ -3,7 +3,162 @@
     <form ref="file-input-form">
       <input type="file" @input="upload_excel($event)" />
     </form>
-    <button @click="export_excel">Export</button>
+    <button class="bg-orange-500 text-sm active:bg-gray-700 cursor-pointer font-regular text-white px-4 py-2 rounded uppercase m-3" @click="export_excel">Export</button>
+
+    <div class="flex items-center">
+      <div>
+        <div class="relative mt-2 rounded-md shadow-sm">
+          <input
+            v-model="search"
+            @input="getCustomers"
+            type="text"
+            name="price"
+            class="block w-full rounded-md border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Cari"
+          />
+        </div>
+      </div>
+      <svg
+        @click="toggleModalFilter"
+        class="h-8 w-8 text-black ml-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+      </svg>
+    </div>
+    <div
+      v-if="modalFilter"
+      class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center"
+    >
+      <div class="modal-overlay absolute w-full h-full bg-white opacity-100">
+        <div class="modal-container fixed w-full h-full z-50 overflow-y-auto">
+          <!-- Add margin if you want to see grey behind the modal-->
+          <div class="modal-content container mx-auto h-auto text-left p-4">
+            <!--Title-->
+            <div class="flex justify-between items-center pb-2">
+              <p class="text-2xl font-bold">Filter</p>
+            </div>
+
+            <!--Body-->
+            <div class="flex justify-around">
+              <div class="pt-6">
+                <span class="font-medium text-gray-900">Tahun/Bulan</span>
+                <div>
+                  <div class="relative mt-2 rounded-md shadow-sm">
+                    <input
+                      type="text"
+                      name="price"
+                      class="block w-full rounded-md border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="1444"
+                    />
+                    <div class="absolute inset-y-0 right-0 flex items-center">
+                      <select
+                        class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-3 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                      >
+                        <option value="1">Muharam</option>
+                        <option value="2">Safar</option>
+                        <option value="3">Rabiul Awal</option>
+                        <option value="4">Rabiul Akhir</option>
+                        <option value="5">Jumadil Awal</option>
+                        <option value="6">Jumadil Akhir</option>
+                        <option value="7">Rajab</option>
+                        <option value="8">Syaban</option>
+                        <option value="9">Ramadhan</option>
+                        <option value="10">Syawal</option>
+                        <option value="11">Dzulqadah</option>
+                        <option value="12">Dzulhijah</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pt-6">
+                <div class="space-y-3">
+                  <span class="font-medium text-gray-900">Status</span>
+                  <div class="flex items-center">
+                    <input
+                      id="filter-mobile-category-0"
+                      name="category[]"
+                      value="new-arrivals"
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <label
+                      for="filter-mobile-category-0"
+                      class="ml-3 min-w-0 flex-1 text-gray-500"
+                      >Tunai</label
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <input
+                      id="filter-mobile-category-1"
+                      name="category[]"
+                      value="sale"
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <label
+                      for="filter-mobile-category-1"
+                      class="ml-3 min-w-0 flex-1 text-gray-500"
+                      >Terbina</label
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <input
+                      id="filter-mobile-category-1"
+                      name="category[]"
+                      value="sale"
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <label
+                      for="filter-mobile-category-1"
+                      class="ml-3 min-w-0 flex-1 text-gray-500"
+                      >Tidak Tunai</label
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <input
+                      id="filter-mobile-category-1"
+                      name="category[]"
+                      value="sale"
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <label
+                      for="filter-mobile-category-1"
+                      class="ml-3 min-w-0 flex-1 text-gray-500"
+                      >Tidak Terbina</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Footer-->
+            <div class="flex justify-end pt-2 mt-10">
+              <div
+                @click="toggleModalFilter"
+                class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
+              >
+                Action
+              </div>
+              <div
+                @click="toggleModalFilter"
+                class="px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400"
+              >
+                Close
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -61,16 +216,19 @@
       class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
     >
       <div class="flex flex-1 justify-between sm:hidden">
-        <a
-          href="#"
+        <button
+          @click="setPage(page > 1 ? page - 1 : 1)"
           class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >Previous</a
         >
-        <a
-          href="#"
+          Previous
+        </button>
+        <span class="font-medium">Page {{page}}</span>
+        <button
+          @click="setPage(page < totalPage ? page + 1 : totalPage)"
           class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >Next</a
         >
+          Next
+        </button>
       </div>
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
@@ -89,8 +247,8 @@
             class="isolate inline-flex -space-x-px rounded-md shadow-sm"
             aria-label="Pagination"
           >
-            <a
-              href="#"
+            <button
+              @click="setPage(page > 1 ? page - 1 : 1)"
               class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
               <span class="sr-only">Previous</span>
@@ -106,45 +264,13 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
             <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
-            <a
-              href="#"
-              aria-current="page"
-              class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >1</a
-            >
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >2</a
-            >
-            <a
-              href="#"
-              class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-              >3</a
-            >
-            <span
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
-              >...</span
-            >
-            <a
-              href="#"
-              class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-              >8</a
-            >
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >9</a
-            >
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >10</a
-            >
-            <a
-              href="#"
+            <button @click="setPage(currentPage)" v-for="currentPage of totalPage" v-if="currentPage < (page + 3) && currentPage > (page - 3)" v-bind:key="currentPage" :class="`${currentPage === page ? 'bg-indigo-600 text-white' : 'text-gray-900'} relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`" >
+              {{currentPage}}
+            </button>
+            <button
+              @click="setPage(page < totalPage ? page + 1 : totalPage)"
               class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
               <span class="sr-only">Next</span>
@@ -160,7 +286,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
           </nav>
         </div>
       </div>
@@ -179,19 +305,27 @@ import {
 } from "../../proto/customers_pb";
 import * as XLSX from "xlsx";
 
+let getTimeout: any = null
+
 export default Vue.extend({
   name: "Customer",
   data: () => {
     type customerState = {
       page: number;
+      perPage: number;
       totalPage: number;
       dataList: Array<Customer.AsObject>;
+      modalFilter: boolean;
+      search: string
     };
 
     let state: customerState = {
-      page: 0,
-      totalPage: 0,
+      page: 1,
+      perPage: 30,
+      totalPage: 1,
       dataList: [],
+      modalFilter: false,
+      search: ''
     };
 
     return state;
@@ -201,19 +335,32 @@ export default Vue.extend({
   },
   methods: {
     async getCustomers() {
-      let payload = new CustomerGetRequest();
-      payload.setPage(this.page);
-      let response = await (<Promise<CustomerGetResponse>>(
-        this.$store.dispatch("getCustomers", payload)
-      ));
+      if(getTimeout) clearTimeout(getTimeout)
+      getTimeout = setTimeout(async () => {
+        let payload = new CustomerGetRequest();
+        payload.setPage(this.page);
+        payload.setPerPage(this.perPage);
+        payload.setSearch(this.search)
+        let response = await (<Promise<CustomerGetResponse>>(
+          this.$store.dispatch("getCustomers", payload)
+        ));
 
-      if (response) {
-        let obj = response.toObject();
-        this.totalPage = obj.totalPage;
-        obj.dataList.map((customer: Customer.AsObject) => {
-          this.dataList.push(customer);
-        });
-      }
+        if (response) {
+          this.dataList = [];
+          let obj = response.toObject();
+          this.totalPage = obj.totalPage;
+          obj.dataList.map((customer: Customer.AsObject) => {
+            this.dataList.push(customer);
+          });
+        }
+      }, 200)
+    },
+    toggleModalFilter() {
+      this.modalFilter = !this.modalFilter;
+    },
+    setPage(page: number) {
+      this.page = page;
+      this.getCustomers();
     },
     async upload_excel(event: any) {
       event.preventDefault();
