@@ -38,6 +38,7 @@
         "data": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protoUserUpdateRequest"
           }
         }
@@ -127,6 +128,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
