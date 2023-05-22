@@ -55,7 +55,8 @@ type Reguler struct {
 	CustomerID     primitive.ObjectID `bson:"customer_id,omitempty" json:"customer_id"`
 	CreatedAt      primitive.DateTime `bson:"created_at,omitempty" json:"created_at"`
 	ModifiedAt     primitive.DateTime `bson:"modified_at,omitempty" json:"modified_at"`
-	BulanTahun     string             `bson:"bulantahun,omitempty" json:"bulantahun"`
+	Bulan          string             `bson:"bulan,omitempty" json:"bulan"`
+	Tahun          string             `bson:"tahun,omitempty" json:"tahun"`
 	Infaq          int                `bson:"infaq,omitempty" json:"infaq"`
 	Zakat          int                `bson:"zakat,omitempty" json:"zakat"`
 	Shadaqah       int                `bson:"shadaqah,omitempty" json:"shadaqah"`

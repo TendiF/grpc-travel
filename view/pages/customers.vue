@@ -3,14 +3,22 @@
     <form ref="file-input-form">
       <input type="file" @input="upload_excel($event)" />
     </form>
-    <button class="bg-orange-500 text-sm active:bg-gray-700 cursor-pointer font-regular text-white px-4 py-2 rounded uppercase m-3" @click="export_excel">Export</button>
+    <button
+      class="bg-orange-500 text-sm active:bg-gray-700 cursor-pointer font-regular text-white px-4 py-2 rounded uppercase m-3"
+      @click="export_excel"
+    >
+      Export
+    </button>
 
     <div class="flex items-center">
       <div>
         <div class="relative mt-2 rounded-md shadow-sm">
           <input
             v-model="search"
-            @input="page = 1; getCustomers()"
+            @input="
+              page = 1;
+              getCustomers();
+            "
             type="text"
             name="price"
             class="block w-full rounded-md border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -160,7 +168,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div class="overflow-hidden">
             <table class="min-w-full text-left text-sm font-light">
@@ -171,8 +179,15 @@
                   <th scope="col" class="px-6 py-4">Status</th>
                   <th scope="col" class="px-6 py-4">KK</th>
                   <th scope="col" class="px-6 py-4">Desa/Kampung</th>
+                  <th scope="col" class="px-6 py-4">Kol</th>
                   <th scope="col" class="px-6 py-4">PJ</th>
-                  <th scope="col" class="px-6 py-4">Layanan Dasar</th>
+                  <th scope="col" class="px-6 py-4">Infaq</th>
+                  <th scope="col" class="px-6 py-4">Zakat</th>
+                  <th scope="col" class="px-6 py-4">Shadaaqah</th>
+                  <th scope="col" class="px-6 py-4">Ihsan</th>
+                  <th scope="col" class="px-6 py-4">Sabil</th>
+                  <th scope="col" class="px-6 py-4">Tabungan Fitrah</th>
+                  <th scope="col" class="px-6 py-4">Tabungan Qurban</th>
                 </tr>
               </thead>
               <tbody>
@@ -200,18 +215,65 @@
                         : customer.desakelurahan
                     }}
                   </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    {{ customer.kol }}
+                  </td>
                   <td class="whitespace-nowrap px-6 py-4">{{ customer.pj }}</td>
                   <td class="whitespace-nowrap px-6 py-4">
-                    <button
-                      class="bg-blue-500 text-sm active:bg-gray-700 cursor-pointer font-regular text-white px-4 py-2 rounded uppercase"
-                    >
-                      TUNAI
-                    </button>
-                    <button
-                      class="bg-green-500 text-sm active:bg-gray-700 cursor-pointer font-regular text-white px-4 py-2 rounded uppercase"
-                    >
-                      TERBINA
-                    </button>
+                    <input
+                      type="number"
+                      name="price"
+                      class="block rounded-md w-20 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Infaq"
+                    />
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <input
+                      type="number"
+                      name="price"
+                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Zakat"
+                    />
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <input
+                      type="number"
+                      name="price"
+                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Shadaqah"
+                    />
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <input
+                      type="number"
+                      name="price"
+                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Ihsan"
+                    />
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <input
+                      type="number"
+                      name="price"
+                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Sabil"
+                    />
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <input
+                      type="number"
+                      name="price"
+                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Tabungan Fitrah"
+                    />
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <input
+                      type="number"
+                      name="price"
+                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Tabungan Qurban"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -230,7 +292,7 @@
         >
           Previous
         </button>
-        <span class="font-medium">Page {{page}} of {{totalPage}}</span>
+        <span class="font-medium">Page {{ page }} of {{ totalPage }}</span>
         <button
           @click="setPage(page < totalPage ? page + 1 : totalPage)"
           class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -242,9 +304,9 @@
         <div>
           <p class="text-sm text-gray-700">
             Page
-            <span class="font-medium">{{page}}</span>
+            <span class="font-medium">{{ page }}</span>
             of
-            <span class="font-medium">{{totalPage}}</span>
+            <span class="font-medium">{{ totalPage }}</span>
           </p>
         </div>
         <div>
@@ -271,8 +333,18 @@
               </svg>
             </button>
             <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
-            <button @click="setPage(currentPage)" v-for="currentPage of totalPage" v-if="currentPage < (page + 3) && currentPage > (page - 3)" v-bind:key="currentPage" :class="`${currentPage === page ? 'bg-indigo-600 text-white' : 'text-gray-900'} relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`" >
-              {{currentPage}}
+            <button
+              @click="setPage(currentPage)"
+              v-for="currentPage of totalPage"
+              v-if="currentPage < page + 3 && currentPage > page - 3"
+              v-bind:key="currentPage"
+              :class="`${
+                currentPage === page
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-gray-900'
+              } relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`"
+            >
+              {{ currentPage }}
             </button>
             <button
               @click="setPage(page < totalPage ? page + 1 : totalPage)"
@@ -310,7 +382,7 @@ import {
 } from "../../proto/customers_pb";
 import * as XLSX from "xlsx";
 
-let getTimeout: any = null
+let getTimeout: any = null;
 
 export default Vue.extend({
   name: "Customer",
@@ -321,7 +393,7 @@ export default Vue.extend({
       totalPage: number;
       dataList: Array<Customer.AsObject>;
       modalFilter: boolean;
-      search: string
+      search: string;
     };
 
     let state: customerState = {
@@ -330,7 +402,7 @@ export default Vue.extend({
       totalPage: 1,
       dataList: [],
       modalFilter: false,
-      search: ''
+      search: "",
     };
 
     return state;
@@ -340,12 +412,12 @@ export default Vue.extend({
   },
   methods: {
     async getCustomers() {
-      if(getTimeout) clearTimeout(getTimeout)
+      if (getTimeout) clearTimeout(getTimeout);
       getTimeout = setTimeout(async () => {
         let payload = new CustomerGetRequest();
         payload.setPage(this.page);
         payload.setPerPage(this.perPage);
-        payload.setSearch(this.search)
+        payload.setSearch(this.search);
         let response = await (<Promise<CustomerGetResponse>>(
           this.$store.dispatch("getCustomers", payload)
         ));
@@ -358,7 +430,7 @@ export default Vue.extend({
             this.dataList.push(customer);
           });
         }
-      }, 200)
+      }, 200);
     },
     toggleModalFilter() {
       this.modalFilter = !this.modalFilter;
