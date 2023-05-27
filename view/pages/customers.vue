@@ -167,118 +167,198 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col">
-      <div class="sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-          <div class="overflow-hidden">
-            <table class="min-w-full text-left text-sm font-light">
-              <thead class="border-b font-medium dark:border-neutral-500">
-                <tr>
-                  <th scope="col" class="px-6 py-4">Nama</th>
-                  <th scope="col" class="px-6 py-4">JK</th>
-                  <th scope="col" class="px-6 py-4">Status</th>
-                  <th scope="col" class="px-6 py-4">KK</th>
-                  <th scope="col" class="px-6 py-4">Desa/Kampung</th>
-                  <th scope="col" class="px-6 py-4">Kol</th>
-                  <th scope="col" class="px-6 py-4">PJ</th>
-                  <th scope="col" class="px-6 py-4">Infaq</th>
-                  <th scope="col" class="px-6 py-4">Zakat</th>
-                  <th scope="col" class="px-6 py-4">Shadaaqah</th>
-                  <th scope="col" class="px-6 py-4">Ihsan</th>
-                  <th scope="col" class="px-6 py-4">Sabil</th>
-                  <th scope="col" class="px-6 py-4">Tabungan Fitrah</th>
-                  <th scope="col" class="px-6 py-4">Tabungan Qurban</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  class="border-b dark:border-neutral-500"
-                  v-for="customer in dataList"
-                  v-bind:key="customer._id"
-                >
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">
-                    {{ customer.nama }}
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">
-                    {{ customer.jk }}
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">
-                    {{ customer.status }}
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    {{ customer.nokk }}
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    {{
-                      customer.kampung
-                        ? customer.kampung
-                        : customer.desakelurahan
-                    }}
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    {{ customer.kol }}
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">{{ customer.pj }}</td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="number"
-                      name="price"
-                      class="block rounded-md w-20 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Infaq"
-                    />
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="number"
-                      name="price"
-                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Zakat"
-                    />
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="number"
-                      name="price"
-                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Shadaqah"
-                    />
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="number"
-                      name="price"
-                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Ihsan"
-                    />
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="number"
-                      name="price"
-                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Sabil"
-                    />
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="number"
-                      name="price"
-                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Tabungan Fitrah"
-                    />
-                  </td>
-                  <td class="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="number"
-                      name="price"
-                      class="block rounded-md border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Tabungan Qurban"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <div class="w-full w-[200rem]">
+      <div class="flex flex-row">
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[15rem] p-1"
+        >
+          Nama
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
+        >
+          JK
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
+        >
+          Status
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          KK
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Desa/Kampung
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Kol
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          PJ
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Bln Lalu
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Infaq
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Zakat
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Shadaaqah
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Ihsan
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Sabil
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Tabungan Fitrah
+        </div>
+        <div
+          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          Tabungan Qurban
+        </div>
+      </div>
+      <div
+        class="flex flex-row"
+        v-for="customer in dataList"
+        v-bind:key="customer._id"
+      >
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[15rem] p-1"
+        >
+          {{ customer.nama }}
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
+        >
+          {{ customer.jk }}
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
+        >
+          {{ customer.status }}
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          {{ customer.nokk }}
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          {{ customer.kampung ? customer.kampung : customer.desakelurahan }}
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          {{ customer.kol }}
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          {{ customer.pj }}
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          TUNAI
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          <input
+            type="number"
+            name="price"
+            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Infaq"
+          />
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          <input
+            type="number"
+            name="price"
+            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Zakat"
+          />
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          <input
+            type="number"
+            name="price"
+            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Shadaqah"
+          />
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          <input
+            type="number"
+            name="price"
+            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Ihsan"
+          />
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          <input
+            type="number"
+            name="price"
+            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Sabil"
+          />
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          <input
+            type="number"
+            name="price"
+            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Tabungan Fitrah"
+          />
+        </div>
+        <div
+          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
+        >
+          <input
+            type="number"
+            name="price"
+            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Tabungan Qurban"
+          />
         </div>
       </div>
     </div>
