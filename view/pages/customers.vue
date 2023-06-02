@@ -1,18 +1,8 @@
 <template>
   <div>
-    <form ref="file-input-form">
-      <input type="file" @input="upload_excel($event)" />
-    </form>
-    <button
-      class="bg-orange-500 text-sm active:bg-gray-700 cursor-pointer font-regular text-white px-4 py-2 rounded uppercase m-3"
-      @click="export_excel"
-    >
-      Export
-    </button>
-
     <div class="flex items-center">
       <div>
-        <div class="relative mt-2 rounded-md shadow-sm">
+        <div class="relative m-1 rounded-md shadow-sm">
           <input
             v-model="search"
             @input="
@@ -21,27 +11,30 @@
             "
             type="text"
             name="price"
-            class="block w-full rounded-md border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            class="block w-full rounded-md w-28 border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             placeholder="Cari"
           />
         </div>
       </div>
+
       <svg
-        @click="toggleModalFilter"
-        class="h-8 w-8 text-black ml-5"
-        viewBox="0 0 24 24"
+        class="h-8 w-8 text-black"
         fill="none"
+        viewBox="0 0 24 24"
         stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        @click="toggleModalFilter"
       >
-        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+        />
       </svg>
     </div>
     <div
       v-if="modalFilter"
-      class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center"
+      class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center z-10"
     >
       <div class="modal-overlay absolute w-full h-full bg-white opacity-100">
         <div class="modal-container fixed w-full h-full z-50 overflow-y-auto">
@@ -53,20 +46,20 @@
             </div>
 
             <!--Body-->
-            <div class="flex justify-around">
-              <div class="pt-6">
+            <div class="flex flex-wrap justify-between">
+              <div class="pr-6 pt-6 w-64">
                 <span class="font-medium text-gray-900">Tahun/Bulan</span>
                 <div>
                   <div class="relative mt-2 rounded-md shadow-sm">
                     <input
                       type="text"
                       name="price"
-                      class="block w-full rounded-md border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      class="block w-full rounded-md w-28 border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       placeholder="1444"
                     />
                     <div class="absolute inset-y-0 right-0 flex items-center">
                       <select
-                        class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-3 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                        class="h-full rounded-md w-28 border-0 bg-transparent py-0 pl-2 pr-3 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                       >
                         <option value="1">Muharam</option>
                         <option value="2">Safar</option>
@@ -85,7 +78,7 @@
                   </div>
                 </div>
               </div>
-              <div class="pt-6">
+              <div class="pr-6 pt-6 w-48">
                 <div class="space-y-3">
                   <span class="font-medium text-gray-900">Layanan Dasar</span>
                   <div class="flex items-center">
@@ -146,6 +139,54 @@
                   </div>
                 </div>
               </div>
+              <div class="pr-6 pt-6 w-48">
+                <div class="space-y-3">
+                  <span class="font-medium text-gray-900">Tampilkan Kolom</span>
+                  <div class="flex items-center">
+                    <input
+                      id="filter-mobile-category-0"
+                      name="category[]"
+                      value="new-arrivals"
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <label
+                      for="filter-mobile-category-0"
+                      class="ml-3 min-w-0 flex-1 text-gray-500"
+                      >Keuangan</label
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <input
+                      id="filter-mobile-category-1"
+                      name="category[]"
+                      value="sale"
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <label
+                      for="filter-mobile-category-1"
+                      class="ml-3 min-w-0 flex-1 text-gray-500"
+                      >Bina</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="pr-6 pt-6 w-48">
+                <span class="font-medium text-gray-900">Import/Export Excel</span>
+                <div>
+                <button
+                  class="bg-orange-500 text-sm active:bg-gray-700 cursor-pointer font-regular text-white px-4 py-2 rounded uppercase m-3"
+                  @click="export_excel"
+                >
+                  Export
+                </button>
+                
+                <form ref="file-input-form">
+                  Import : <br/><input type="file" @input="upload_excel($event)" />
+                </form>
+                </div>
+              </div>
             </div>
 
             <!--Footer-->
@@ -167,199 +208,132 @@
         </div>
       </div>
     </div>
-    <div class="w-full w-[200rem]">
-      <div class="flex flex-row">
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[15rem] p-1"
-        >
-          Nama
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
-        >
-          JK
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
-        >
-          Status
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          KK
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Desa/Kampung
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Kol
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          PJ
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Bln Lalu
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Infaq
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Zakat
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Shadaaqah
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Ihsan
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Sabil
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Tabungan Fitrah
-        </div>
-        <div
-          class="font-medium border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          Tabungan Qurban
-        </div>
-      </div>
-      <div
-        class="flex flex-row"
-        v-for="customer in dataList"
-        v-bind:key="customer._id"
-      >
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[15rem] p-1"
-        >
-          {{ customer.nama }}
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
-        >
-          {{ customer.jk }}
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[5rem] p-1"
-        >
-          {{ customer.status }}
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          {{ customer.nokk }}
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          {{ customer.kampung ? customer.kampung : customer.desakelurahan }}
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          {{ customer.kol }}
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          {{ customer.pj }}
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          TUNAI
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          <input
-            type="number"
-            name="price"
-            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Infaq"
-          />
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          <input
-            type="number"
-            name="price"
-            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Zakat"
-          />
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          <input
-            type="number"
-            name="price"
-            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Shadaqah"
-          />
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          <input
-            type="number"
-            name="price"
-            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Ihsan"
-          />
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          <input
-            type="number"
-            name="price"
-            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Sabil"
-          />
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          <input
-            type="number"
-            name="price"
-            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Tabungan Fitrah"
-          />
-        </div>
-        <div
-          class="border border-inherit hover:border-indigo-300 basis-auto w-[10rem] p-1"
-        >
-          <input
-            type="number"
-            name="price"
-            class="block rounded-md w-32 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Tabungan Qurban"
-          />
-        </div>
+    <div class="w-screen">
+      <div id="demoDW">
+        <table class="text-left text-sm font-light" id="demoDT">
+          <thead class="border-b font-medium dark:border-neutral-500">
+            <tr>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">Nama</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">JK</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">Status</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">KK</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">Desa/Kampung</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">RT</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">RW</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">Kol</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100">PJ</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">BLN LALU</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Infaq</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Zakat</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Shadaaqah</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Ihsan</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Sabil</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Tabungan Fitrah</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Tabungan Qurban</th>
+              <th scope="col" class="px-3 py-1 bg-lime-100">BLN LALU</th>
+              <th scope="col" class="px-3 py-1 bg-lime-100">Terbina</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="border-b dark:border-neutral-500"
+              v-for="customer in dataList"
+              v-bind:key="customer._id"
+            >
+              <th
+                scope="row"
+                class="whitespace-nowrap max-w-[40%] px-3 py-2 font-medium bg-white"
+              >
+                {{ customer.nama }}
+              </th>
+              <td class="whitespace-nowrap px-3 py-2 font-medium">
+                {{ customer.jk }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2 font-medium">
+                {{ customer.status }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                {{ customer.nokk }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                {{
+                  customer.kampung ? customer.kampung : customer.desakelurahan
+                }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                {{ customer.rt }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                {{ customer.rw }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                {{ customer.kol }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">{{ customer.pj }}</td>
+              <td class="whitespace-nowrap px-3 py-2">TUNAI</td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input
+                  type="number"
+                  name="price"
+                  class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Infaq"
+                />
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input
+                  type="number"
+                  name="price"
+                  class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Zakat"
+                />
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input
+                  type="number"
+                  name="price"
+                  class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Shadaqah"
+                />
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input
+                  type="number"
+                  name="price"
+                  class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Ihsan"
+                />
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input
+                  type="number"
+                  name="price"
+                  class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Sabil"
+                />
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input
+                  type="number"
+                  name="price"
+                  class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Fitrah"
+                />
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input
+                  type="number"
+                  name="price"
+                  class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Qurban"
+                />
+              </td>
+              <td class="whitespace-nowrap px-3 py-2">TERBINA</td>
+              <td class="whitespace-nowrap px-3 py-2">
+                <input type="checkbox" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div

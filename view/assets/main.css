@@ -1,0 +1,17 @@
+#demoDW {
+    width: 100vw;
+    max-height: 86vh;
+    overflow: auto;
+}
+
+/* (B) STICKY HEADERS */
+#demoDT th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+#demoDT th[scope=row] {
+    left: 0;
+    z-index: 1;
+}
