@@ -5,6 +5,7 @@ import (
 	customerModel "deall-package/models/customer"
 	"deall-package/proto"
 	"deall-package/types"
+	"fmt"
 	"log"
 	"math"
 	"strconv"
@@ -60,11 +61,16 @@ func (s *Server) Create(ctx context.Context, params *proto.CustomerCreateRequest
 
 func (s *Server) Get(ctx context.Context, params *proto.CustomerGetRequest) (*proto.CustomerGetResponse, error) {
 	var response proto.CustomerGetResponse
+	md, ok := metadata.FromIncomingContext(ctx)
 
-	paramsBson := bson.M{}
-	paramsBson["$or"] = []interface{}{
-		bson.M{"nama": primitive.Regex{Pattern: params.Search, Options: "i"}},
+	if !ok {
+		log.Fatal("get metadata error")
 	}
+
+	paramsBson := bson.D{}
+
+	paramsBson = append(paramsBson, bson.E{Key: "code_merchant", Value: md["code_merchant"][0]})
+	paramsBson = append(paramsBson, bson.E{Key: "nama", Value: primitive.Regex{Pattern: params.Search, Options: "i"}})
 
 	if params.Page == 0 {
 		params.Page = 1
@@ -74,7 +80,19 @@ func (s *Server) Get(ctx context.Context, params *proto.CustomerGetRequest) (*pr
 		params.PerPage = 10
 	}
 
-	customers := customerModel.Find(paramsBson, params.PerPage, (params.PerPage*params.Page)-params.PerPage)
+	sortParam := bson.D{}
+
+	if params.Sort.NoKK != 0 {
+		sortParam = append(sortParam, bson.E{Key: "no_kk", Value: params.Sort.NoKK})
+	}
+
+	if params.Sort.PJ != 0 {
+		sortParam = append(sortParam, bson.E{Key: "pj", Value: params.Sort.PJ})
+	}
+
+	fmt.Println("asd", sortParam)
+
+	customers := customerModel.Find(paramsBson, params.PerPage, (params.PerPage*params.Page)-params.PerPage, sortParam)
 	totalData := customerModel.CountDocuments(paramsBson)
 	response.TotalPage = int64(math.RoundToEven(float64(totalData%params.PerPage)) + 1)
 

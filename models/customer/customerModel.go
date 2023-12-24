@@ -29,17 +29,7 @@ func InsertMany(customers []interface{}) (*mongo.InsertManyResult, error) {
 	return mongDB.Collection(collection).InsertMany(database.MongoContext, customers)
 }
 
-func Count(params bson.M) int64 {
-	mongDB := database.MongoDB
-
-	number, error := mongDB.Collection(collection).CountDocuments(database.MongoContext, params)
-	if error != nil {
-		fmt.Println("[err count]", error)
-	}
-	return number
-}
-
-func Find(params bson.M, limit int64, skip int64) []types.Customer {
+func Find(params bson.D, limit int64, skip int64, sort bson.D) []types.Customer {
 	mongDB := database.MongoDB
 
 	options := options.FindOptions{}
@@ -50,6 +40,8 @@ func Find(params bson.M, limit int64, skip int64) []types.Customer {
 	if skip > 0 {
 		options.Skip = &skip
 	}
+
+	options.SetSort(sort)
 
 	crsr, err := mongDB.Collection(collection).Find(database.MongoContext, params, &options)
 	if err != nil {
@@ -107,7 +99,7 @@ func Update(id string, params types.Customer) types.Customer {
 	return customer
 }
 
-func CountDocuments(params bson.M) int64 {
+func CountDocuments(params bson.D) int64 {
 	mongDB := database.MongoDB
 	total, err := mongDB.Collection(collection).CountDocuments(database.MongoContext, params)
 	if err != nil {
@@ -115,4 +107,16 @@ func CountDocuments(params bson.M) int64 {
 	}
 
 	return total
+}
+
+func CreateIndexing() {
+	mongDB := database.MongoDB
+
+	indexModel := mongo.IndexModel{
+		Keys: bson.M{
+			"code_merchant": 1,
+		},
+	}
+
+	mongDB.Collection(collection).Indexes().CreateOne(database.MongoContext, indexModel)
 }

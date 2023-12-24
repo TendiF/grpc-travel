@@ -216,12 +216,20 @@
               <th scope="col" class="px-3 py-1 bg-cyan-100">Nama</th>
               <th scope="col" class="px-3 py-1 bg-cyan-100">JK</th>
               <th scope="col" class="px-3 py-1 bg-cyan-100">Status</th>
-              <th scope="col" class="px-3 py-1 bg-cyan-100">KK</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100" @click="toggleSort('noKK')">
+                <span>KK</span>
+                <span v-if="sort.noKK === 1 && sort.noKK !== 0">⇑</span>
+                <span v-else-if="sort.noKK !== 0">⇓</span>
+              </th>
               <th scope="col" class="px-3 py-1 bg-cyan-100">Desa/Kampung</th>
               <th scope="col" class="px-3 py-1 bg-cyan-100">RT</th>
               <th scope="col" class="px-3 py-1 bg-cyan-100">RW</th>
               <th scope="col" class="px-3 py-1 bg-cyan-100">Kol</th>
-              <th scope="col" class="px-3 py-1 bg-cyan-100">PJ</th>
+              <th scope="col" class="px-3 py-1 bg-cyan-100" @click="toggleSort('pj')">
+                <span>PJ</span>
+                <span v-if="sort.pj === 1 && sort.pj !== 0">⇑</span>
+                <span v-else-if="sort.pj !== 0">⇓</span>
+              </th>
               <th scope="col" class="px-3 py-1 bg-red-100">BLN LALU</th>
               <th scope="col" class="px-3 py-1 bg-red-100">Infaq</th>
               <th scope="col" class="px-3 py-1 bg-red-100">Zakat</th>
@@ -242,7 +250,7 @@
             >
               <th
                 scope="row"
-                class="whitespace-nowrap max-w-[40%] px-3 py-2 font-medium bg-white"
+                class="whitespace-nowrap max-w-[30%] px-3 py-2 font-medium bg-white"
               >
                 {{ customer.nama }}
               </th>
@@ -433,6 +441,7 @@ import {
   CustomerGetResponse,
   Customer,
   CustomerCreateRequest,
+  CustomerSortParam
 } from "../../proto/customers_pb";
 import * as XLSX from "xlsx";
 
@@ -448,6 +457,7 @@ export default Vue.extend({
       dataList: Array<Customer.AsObject>;
       modalFilter: boolean;
       search: string;
+      sort: {[key:string]: number}
     };
 
     let state: customerState = {
@@ -457,6 +467,10 @@ export default Vue.extend({
       dataList: [],
       modalFilter: false,
       search: "",
+      sort: {
+        noKK: 0,
+        pj: 0
+      }
     };
 
     return state;
@@ -469,9 +483,17 @@ export default Vue.extend({
       if (getTimeout) clearTimeout(getTimeout);
       getTimeout = setTimeout(async () => {
         let payload = new CustomerGetRequest();
+        let sortPaylad = new CustomerSortParam()
         payload.setPage(this.page);
         payload.setPerPage(this.perPage);
         payload.setSearch(this.search);
+        if(this.sort.noKK){
+          sortPaylad.setNokk(this.sort.noKK)
+        }
+        if(this.sort.pj){
+          sortPaylad.setPj(this.sort.pj)
+        }
+        payload.setSort(sortPaylad)
         let response = await (<Promise<CustomerGetResponse>>(
           this.$store.dispatch("getCustomers", payload)
         ));
@@ -485,6 +507,17 @@ export default Vue.extend({
           });
         }
       }, 200);
+    },
+    toggleSort(column: string){
+      if(!this.sort?.[column]){
+        this.sort[column] = 1
+      }else if(this.sort?.[column] === 1){
+        this.sort[column] = -1
+      }else {
+        this.sort[column] = 0
+      }
+
+      this.getCustomers()
     },
     toggleModalFilter() {
       this.modalFilter = !this.modalFilter;

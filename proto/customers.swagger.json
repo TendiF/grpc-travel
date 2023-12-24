@@ -103,6 +103,19 @@
         }
       }
     },
+    "protoCustomerSortParam": {
+      "type": "object",
+      "properties": {
+        "NoKK": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "PJ": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {

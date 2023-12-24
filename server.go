@@ -16,6 +16,8 @@ import (
 	"deall-package/utils/database"
 	"deall-package/utils/utils"
 
+	customerModel "deall-package/models/customer"
+
 	"github.com/golang/glog"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -65,6 +67,7 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 func main() {
 	godotenv.Load(".env")
 	database.CreateConnection(3 * time.Second)
+	customerModel.CreateIndexing()
 	utils.InitAdmin()
 	GRPC_PORT := os.Getenv("GRPC_PORT")
 

@@ -13,6 +13,9 @@ https://docs.buf.build/installation
 ### use docker-compose
 `docker-compose up`
 
+### use nodemon
+`nodemon --exec "go run" ./server.go --signal SIGTERM`
+
 # Run Test
 go test ./service/users
 

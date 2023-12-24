@@ -108,6 +108,28 @@ export namespace Customer {
   }
 }
 
+export class CustomerSortParam extends jspb.Message {
+  getNokk(): number;
+  setNokk(value: number): CustomerSortParam;
+
+  getPj(): number;
+  setPj(value: number): CustomerSortParam;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CustomerSortParam.AsObject;
+  static toObject(includeInstance: boolean, msg: CustomerSortParam): CustomerSortParam.AsObject;
+  static serializeBinaryToWriter(message: CustomerSortParam, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CustomerSortParam;
+  static deserializeBinaryFromReader(message: CustomerSortParam, reader: jspb.BinaryReader): CustomerSortParam;
+}
+
+export namespace CustomerSortParam {
+  export type AsObject = {
+    nokk: number,
+    pj: number,
+  }
+}
+
 export class CustomerResponse extends jspb.Message {
   getMessage(): string;
   setMessage(value: string): CustomerResponse;
@@ -164,6 +186,11 @@ export class CustomerGetRequest extends jspb.Message {
   getSearch(): string;
   setSearch(value: string): CustomerGetRequest;
 
+  getSort(): CustomerSortParam | undefined;
+  setSort(value?: CustomerSortParam): CustomerGetRequest;
+  hasSort(): boolean;
+  clearSort(): CustomerGetRequest;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CustomerGetRequest.AsObject;
   static toObject(includeInstance: boolean, msg: CustomerGetRequest): CustomerGetRequest.AsObject;
@@ -177,6 +204,7 @@ export namespace CustomerGetRequest {
     page: number,
     perPage: number,
     search: string,
+    sort?: CustomerSortParam.AsObject,
   }
 }
 

@@ -28,6 +28,11 @@ message Customer {
     string ID               = 18;
 }
 
+message CustomerSortParam {
+    int32 NoKK           = 1;
+    int32 PJ             = 2;
+}
+
 message CustomerResponse {
     string message = 1;
 }
@@ -42,6 +47,7 @@ message CustomerGetRequest {
     int64 page = 1;
     int64 per_page = 2;
     string search = 3;
+    CustomerSortParam sort = 4;
 }
 
 message CustomerUpdateRequest {
