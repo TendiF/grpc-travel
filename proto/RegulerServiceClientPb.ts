@@ -39,8 +39,8 @@ export class RegulersServiceClient {
     this.options_ = options;
   }
 
-  methodDescriptorCreate = new grpcWeb.MethodDescriptor(
-    '/proto.RegulersService/Create',
+  methodDescriptorCreateOrUpdate = new grpcWeb.MethodDescriptor(
+    '/proto.RegulersService/CreateOrUpdate',
     grpcWeb.MethodType.UNARY,
     proto_reguler_pb.RegulerCreateRequest,
     proto_reguler_pb.RegulerResponse,
@@ -50,17 +50,17 @@ export class RegulersServiceClient {
     proto_reguler_pb.RegulerResponse.deserializeBinary
   );
 
-  create(
+  createOrUpdate(
     request: proto_reguler_pb.RegulerCreateRequest,
     metadata?: grpcWeb.Metadata | null): Promise<proto_reguler_pb.RegulerResponse>;
 
-  create(
+  createOrUpdate(
     request: proto_reguler_pb.RegulerCreateRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
                response: proto_reguler_pb.RegulerResponse) => void): grpcWeb.ClientReadableStream<proto_reguler_pb.RegulerResponse>;
 
-  create(
+  createOrUpdate(
     request: proto_reguler_pb.RegulerCreateRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
@@ -68,18 +68,18 @@ export class RegulersServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/proto.RegulersService/Create',
+          '/proto.RegulersService/CreateOrUpdate',
         request,
         metadata || {},
-        this.methodDescriptorCreate,
+        this.methodDescriptorCreateOrUpdate,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/proto.RegulersService/Create',
+      '/proto.RegulersService/CreateOrUpdate',
     request,
     metadata || {},
-    this.methodDescriptorCreate);
+    this.methodDescriptorCreateOrUpdate);
   }
 
   methodDescriptorGet = new grpcWeb.MethodDescriptor(

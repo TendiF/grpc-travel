@@ -1,5 +1,6 @@
 import * as jspb from 'google-protobuf'
 
+import * as proto_reguler_pb from '../proto/reguler_pb'; // proto import: "proto/reguler.proto"
 
 
 export class CustomerCreateRequest extends jspb.Message {
@@ -77,6 +78,11 @@ export class Customer extends jspb.Message {
   getId(): string;
   setId(value: string): Customer;
 
+  getReguler(): proto_reguler_pb.RegulerCreateRequest | undefined;
+  setReguler(value?: proto_reguler_pb.RegulerCreateRequest): Customer;
+  hasReguler(): boolean;
+  clearReguler(): Customer;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Customer.AsObject;
   static toObject(includeInstance: boolean, msg: Customer): Customer.AsObject;
@@ -105,6 +111,7 @@ export namespace Customer {
     pj: string,
     note: string,
     id: string,
+    reguler?: proto_reguler_pb.RegulerCreateRequest.AsObject,
   }
 }
 
@@ -186,6 +193,12 @@ export class CustomerGetRequest extends jspb.Message {
   getSearch(): string;
   setSearch(value: string): CustomerGetRequest;
 
+  getTahun(): string;
+  setTahun(value: string): CustomerGetRequest;
+
+  getBulan(): string;
+  setBulan(value: string): CustomerGetRequest;
+
   getSort(): CustomerSortParam | undefined;
   setSort(value?: CustomerSortParam): CustomerGetRequest;
   hasSort(): boolean;
@@ -204,6 +217,8 @@ export namespace CustomerGetRequest {
     page: number,
     perPage: number,
     search: string,
+    tahun: string,
+    bulan: string,
     sort?: CustomerSortParam.AsObject,
   }
 }

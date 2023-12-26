@@ -12,6 +12,7 @@ import (
 	"deall-package/gateway"
 	"deall-package/proto"
 	"deall-package/service/customers"
+	"deall-package/service/reguler"
 	users "deall-package/service/users"
 	"deall-package/utils/database"
 	"deall-package/utils/utils"
@@ -96,6 +97,7 @@ func main() {
 
 	proto.RegisterUsersServiceServer(grpcServer, &users.Server{})
 	proto.RegisterCustomersServiceServer(grpcServer, &customers.Server{})
+	proto.RegisterRegulersServiceServer(grpcServer, &reguler.Server{})
 
 	if err := grpcServer.Serve(lis); err != nil {
 		glog.Errorf("Failed to serve gRPC server over port %: %v", GRPC_PORT, err)

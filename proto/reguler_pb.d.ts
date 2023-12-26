@@ -6,29 +6,32 @@ export class RegulerCreateRequest extends jspb.Message {
   getCustomerid(): string;
   setCustomerid(value: string): RegulerCreateRequest;
 
-  getBulantahun(): string;
-  setBulantahun(value: string): RegulerCreateRequest;
+  getBulan(): string;
+  setBulan(value: string): RegulerCreateRequest;
 
-  getInfaq(): string;
-  setInfaq(value: string): RegulerCreateRequest;
+  getTahun(): string;
+  setTahun(value: string): RegulerCreateRequest;
 
-  getZakat(): string;
-  setZakat(value: string): RegulerCreateRequest;
+  getInfaq(): number;
+  setInfaq(value: number): RegulerCreateRequest;
 
-  getShadaqah(): string;
-  setShadaqah(value: string): RegulerCreateRequest;
+  getZakat(): number;
+  setZakat(value: number): RegulerCreateRequest;
 
-  getIkhsan(): string;
-  setIkhsan(value: string): RegulerCreateRequest;
+  getShadaqah(): number;
+  setShadaqah(value: number): RegulerCreateRequest;
 
-  getSabil(): string;
-  setSabil(value: string): RegulerCreateRequest;
+  getIkhsan(): number;
+  setIkhsan(value: number): RegulerCreateRequest;
 
-  getTabunganfitrah(): string;
-  setTabunganfitrah(value: string): RegulerCreateRequest;
+  getSabil(): number;
+  setSabil(value: number): RegulerCreateRequest;
 
-  getTabunganqurban(): string;
-  setTabunganqurban(value: string): RegulerCreateRequest;
+  getTabunganfitrah(): number;
+  setTabunganfitrah(value: number): RegulerCreateRequest;
+
+  getTabunganqurban(): number;
+  setTabunganqurban(value: number): RegulerCreateRequest;
 
   getBina(): string;
   setBina(value: string): RegulerCreateRequest;
@@ -44,14 +47,15 @@ export class RegulerCreateRequest extends jspb.Message {
 export namespace RegulerCreateRequest {
   export type AsObject = {
     customerid: string,
-    bulantahun: string,
-    infaq: string,
-    zakat: string,
-    shadaqah: string,
-    ikhsan: string,
-    sabil: string,
-    tabunganfitrah: string,
-    tabunganqurban: string,
+    bulan: string,
+    tahun: string,
+    infaq: number,
+    zakat: number,
+    shadaqah: number,
+    ikhsan: number,
+    sabil: number,
+    tabunganfitrah: number,
+    tabunganqurban: number,
     bina: string,
   }
 }

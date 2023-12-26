@@ -73,6 +73,9 @@
         },
         "ID": {
           "type": "string"
+        },
+        "reguler": {
+          "$ref": "#/definitions/protoRegulerCreateRequest"
         }
       }
     },
@@ -113,6 +116,51 @@
         "PJ": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "protoRegulerCreateRequest": {
+      "type": "object",
+      "properties": {
+        "CustomerID": {
+          "type": "string"
+        },
+        "Bulan": {
+          "type": "string"
+        },
+        "Tahun": {
+          "type": "string"
+        },
+        "Infaq": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Zakat": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Shadaqah": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Ikhsan": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Sabil": {
+          "type": "string",
+          "format": "int64"
+        },
+        "TabunganFitrah": {
+          "type": "string",
+          "format": "int64"
+        },
+        "TabunganQurban": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Bina": {
+          "type": "string"
         }
       }
     },

@@ -23,29 +23,39 @@
         "CustomerID": {
           "type": "string"
         },
-        "BulanTahun": {
+        "Bulan": {
+          "type": "string"
+        },
+        "Tahun": {
           "type": "string"
         },
         "Infaq": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "Zakat": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "Shadaqah": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "Ikhsan": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "Sabil": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "TabunganFitrah": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "TabunganQurban": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "Bina": {
           "type": "string"

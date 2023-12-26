@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var collection = "refuler"
+var collection = "reguler"
 
 func Insert(reguler types.Reguler) (*mongo.InsertOneResult, error) {
 	mongDB := database.MongoDB
@@ -20,12 +20,10 @@ func Insert(reguler types.Reguler) (*mongo.InsertOneResult, error) {
 	return mongDB.Collection(collection).InsertOne(database.MongoContext, reguler)
 }
 
-func Update(ID string, reguler types.Reguler) (*mongo.UpdateResult, error) {
+func Update(ID primitive.ObjectID, reguler types.Reguler) (*mongo.UpdateResult, error) {
 	mongDB := database.MongoDB
 	reguler.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
-	fmt.Println(ID)
-	id, _ := primitive.ObjectIDFromHex(ID)
-	return mongDB.Collection(collection).UpdateByID(database.MongoContext, id, bson.D{
+	return mongDB.Collection(collection).UpdateByID(database.MongoContext, ID, bson.D{
 		{"$set", reguler},
 	})
 }

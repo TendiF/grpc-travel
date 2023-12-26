@@ -21,6 +21,8 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
+var proto_reguler_pb = require('../proto/reguler_pb.js');
+goog.object.extend(proto, proto_reguler_pb);
 goog.exportSymbol('proto.proto.Customer', null, global);
 goog.exportSymbol('proto.proto.CustomerCreateRequest', null, global);
 goog.exportSymbol('proto.proto.CustomerGetRequest', null, global);
@@ -384,7 +386,8 @@ proto.proto.Customer.toObject = function(includeInstance, msg) {
     syahidan: jspb.Message.getFieldWithDefault(msg, 15, ""),
     pj: jspb.Message.getFieldWithDefault(msg, 16, ""),
     note: jspb.Message.getFieldWithDefault(msg, 17, ""),
-    id: jspb.Message.getFieldWithDefault(msg, 18, "")
+    id: jspb.Message.getFieldWithDefault(msg, 18, ""),
+    reguler: (f = msg.getReguler()) && proto_reguler_pb.RegulerCreateRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -492,6 +495,11 @@ proto.proto.Customer.deserializeBinaryFromReader = function(msg, reader) {
     case 18:
       var value = /** @type {string} */ (reader.readString());
       msg.setId(value);
+      break;
+    case 19:
+      var value = new proto_reguler_pb.RegulerCreateRequest;
+      reader.readMessage(value,proto_reguler_pb.RegulerCreateRequest.deserializeBinaryFromReader);
+      msg.setReguler(value);
       break;
     default:
       reader.skipField();
@@ -646,6 +654,14 @@ proto.proto.Customer.serializeBinaryToWriter = function(message, writer) {
     writer.writeString(
       18,
       f
+    );
+  }
+  f = message.getReguler();
+  if (f != null) {
+    writer.writeMessage(
+      19,
+      f,
+      proto_reguler_pb.RegulerCreateRequest.serializeBinaryToWriter
     );
   }
 };
@@ -972,6 +988,43 @@ proto.proto.Customer.prototype.getId = function() {
  */
 proto.proto.Customer.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 18, value);
+};
+
+
+/**
+ * optional RegulerCreateRequest reguler = 19;
+ * @return {?proto.proto.RegulerCreateRequest}
+ */
+proto.proto.Customer.prototype.getReguler = function() {
+  return /** @type{?proto.proto.RegulerCreateRequest} */ (
+    jspb.Message.getWrapperField(this, proto_reguler_pb.RegulerCreateRequest, 19));
+};
+
+
+/**
+ * @param {?proto.proto.RegulerCreateRequest|undefined} value
+ * @return {!proto.proto.Customer} returns this
+*/
+proto.proto.Customer.prototype.setReguler = function(value) {
+  return jspb.Message.setWrapperField(this, 19, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.proto.Customer} returns this
+ */
+proto.proto.Customer.prototype.clearReguler = function() {
+  return this.setReguler(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.proto.Customer.prototype.hasReguler = function() {
+  return jspb.Message.getField(this, 19) != null;
 };
 
 
@@ -1520,6 +1573,8 @@ proto.proto.CustomerGetRequest.toObject = function(includeInstance, msg) {
     page: jspb.Message.getFieldWithDefault(msg, 1, 0),
     perPage: jspb.Message.getFieldWithDefault(msg, 2, 0),
     search: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    tahun: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    bulan: jspb.Message.getFieldWithDefault(msg, 5, ""),
     sort: (f = msg.getSort()) && proto.proto.CustomerSortParam.toObject(includeInstance, f)
   };
 
@@ -1570,6 +1625,14 @@ proto.proto.CustomerGetRequest.deserializeBinaryFromReader = function(msg, reade
       msg.setSearch(value);
       break;
     case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTahun(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setBulan(value);
+      break;
+    case 6:
       var value = new proto.proto.CustomerSortParam;
       reader.readMessage(value,proto.proto.CustomerSortParam.deserializeBinaryFromReader);
       msg.setSort(value);
@@ -1624,10 +1687,24 @@ proto.proto.CustomerGetRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
+  f = message.getTahun();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
+  f = message.getBulan();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
   f = message.getSort();
   if (f != null) {
     writer.writeMessage(
-      4,
+      6,
       f,
       proto.proto.CustomerSortParam.serializeBinaryToWriter
     );
@@ -1690,12 +1767,48 @@ proto.proto.CustomerGetRequest.prototype.setSearch = function(value) {
 
 
 /**
- * optional CustomerSortParam sort = 4;
+ * optional string tahun = 4;
+ * @return {string}
+ */
+proto.proto.CustomerGetRequest.prototype.getTahun = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CustomerGetRequest} returns this
+ */
+proto.proto.CustomerGetRequest.prototype.setTahun = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional string bulan = 5;
+ * @return {string}
+ */
+proto.proto.CustomerGetRequest.prototype.getBulan = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.CustomerGetRequest} returns this
+ */
+proto.proto.CustomerGetRequest.prototype.setBulan = function(value) {
+  return jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional CustomerSortParam sort = 6;
  * @return {?proto.proto.CustomerSortParam}
  */
 proto.proto.CustomerGetRequest.prototype.getSort = function() {
   return /** @type{?proto.proto.CustomerSortParam} */ (
-    jspb.Message.getWrapperField(this, proto.proto.CustomerSortParam, 4));
+    jspb.Message.getWrapperField(this, proto.proto.CustomerSortParam, 6));
 };
 
 
@@ -1704,7 +1817,7 @@ proto.proto.CustomerGetRequest.prototype.getSort = function() {
  * @return {!proto.proto.CustomerGetRequest} returns this
 */
 proto.proto.CustomerGetRequest.prototype.setSort = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
@@ -1722,7 +1835,7 @@ proto.proto.CustomerGetRequest.prototype.clearSort = function() {
  * @return {boolean}
  */
 proto.proto.CustomerGetRequest.prototype.hasSort = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 6) != null;
 };
 
 

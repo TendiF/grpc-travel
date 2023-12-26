@@ -164,15 +164,16 @@ proto.proto.RegulerCreateRequest.prototype.toObject = function(opt_includeInstan
 proto.proto.RegulerCreateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     customerid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    bulantahun: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    infaq: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    zakat: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    shadaqah: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    ikhsan: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    sabil: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    tabunganfitrah: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    tabunganqurban: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    bina: jspb.Message.getFieldWithDefault(msg, 10, "")
+    bulan: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    tahun: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    infaq: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    zakat: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    shadaqah: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    ikhsan: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    sabil: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    tabunganfitrah: jspb.Message.getFieldWithDefault(msg, 11, 0),
+    tabunganqurban: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    bina: jspb.Message.getFieldWithDefault(msg, 13, "")
   };
 
   if (includeInstance) {
@@ -213,39 +214,43 @@ proto.proto.RegulerCreateRequest.deserializeBinaryFromReader = function(msg, rea
       var value = /** @type {string} */ (reader.readString());
       msg.setCustomerid(value);
       break;
-    case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setBulantahun(value);
-      break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInfaq(value);
+      msg.setBulan(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setZakat(value);
-      break;
-    case 5:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setShadaqah(value);
+      msg.setTahun(value);
       break;
     case 6:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setIkhsan(value);
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setInfaq(value);
       break;
     case 7:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setSabil(value);
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setZakat(value);
       break;
     case 8:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setTabunganfitrah(value);
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setShadaqah(value);
       break;
     case 9:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setTabunganqurban(value);
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setIkhsan(value);
       break;
     case 10:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setSabil(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTabunganfitrah(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTabunganqurban(value);
+      break;
+    case 13:
       var value = /** @type {string} */ (reader.readString());
       msg.setBina(value);
       break;
@@ -285,66 +290,73 @@ proto.proto.RegulerCreateRequest.serializeBinaryToWriter = function(message, wri
       f
     );
   }
-  f = message.getBulantahun();
-  if (f.length > 0) {
-    writer.writeString(
-      2,
-      f
-    );
-  }
-  f = message.getInfaq();
+  f = message.getBulan();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getZakat();
+  f = message.getTahun();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getShadaqah();
-  if (f.length > 0) {
-    writer.writeString(
-      5,
-      f
-    );
-  }
-  f = message.getIkhsan();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getInfaq();
+  if (f !== 0) {
+    writer.writeInt64(
       6,
       f
     );
   }
-  f = message.getSabil();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getZakat();
+  if (f !== 0) {
+    writer.writeInt64(
       7,
       f
     );
   }
-  f = message.getTabunganfitrah();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getShadaqah();
+  if (f !== 0) {
+    writer.writeInt64(
       8,
       f
     );
   }
-  f = message.getTabunganqurban();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getIkhsan();
+  if (f !== 0) {
+    writer.writeInt64(
       9,
+      f
+    );
+  }
+  f = message.getSabil();
+  if (f !== 0) {
+    writer.writeInt64(
+      10,
+      f
+    );
+  }
+  f = message.getTabunganfitrah();
+  if (f !== 0) {
+    writer.writeInt64(
+      11,
+      f
+    );
+  }
+  f = message.getTabunganqurban();
+  if (f !== 0) {
+    writer.writeInt64(
+      12,
       f
     );
   }
   f = message.getBina();
   if (f.length > 0) {
     writer.writeString(
-      10,
+      13,
       f
     );
   }
@@ -370,28 +382,10 @@ proto.proto.RegulerCreateRequest.prototype.setCustomerid = function(value) {
 
 
 /**
- * optional string BulanTahun = 2;
+ * optional string Bulan = 3;
  * @return {string}
  */
-proto.proto.RegulerCreateRequest.prototype.getBulantahun = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.RegulerCreateRequest} returns this
- */
-proto.proto.RegulerCreateRequest.prototype.setBulantahun = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
-};
-
-
-/**
- * optional string Infaq = 3;
- * @return {string}
- */
-proto.proto.RegulerCreateRequest.prototype.getInfaq = function() {
+proto.proto.RegulerCreateRequest.prototype.getBulan = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -400,16 +394,16 @@ proto.proto.RegulerCreateRequest.prototype.getInfaq = function() {
  * @param {string} value
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
-proto.proto.RegulerCreateRequest.prototype.setInfaq = function(value) {
+proto.proto.RegulerCreateRequest.prototype.setBulan = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string Zakat = 4;
+ * optional string Tahun = 4;
  * @return {string}
  */
-proto.proto.RegulerCreateRequest.prototype.getZakat = function() {
+proto.proto.RegulerCreateRequest.prototype.getTahun = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -418,107 +412,143 @@ proto.proto.RegulerCreateRequest.prototype.getZakat = function() {
  * @param {string} value
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
-proto.proto.RegulerCreateRequest.prototype.setZakat = function(value) {
+proto.proto.RegulerCreateRequest.prototype.setTahun = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string Shadaqah = 5;
- * @return {string}
+ * optional int64 Infaq = 6;
+ * @return {number}
  */
-proto.proto.RegulerCreateRequest.prototype.getShadaqah = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+proto.proto.RegulerCreateRequest.prototype.getInfaq = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
+ * @return {!proto.proto.RegulerCreateRequest} returns this
+ */
+proto.proto.RegulerCreateRequest.prototype.setInfaq = function(value) {
+  return jspb.Message.setProto3IntField(this, 6, value);
+};
+
+
+/**
+ * optional int64 Zakat = 7;
+ * @return {number}
+ */
+proto.proto.RegulerCreateRequest.prototype.getZakat = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.RegulerCreateRequest} returns this
+ */
+proto.proto.RegulerCreateRequest.prototype.setZakat = function(value) {
+  return jspb.Message.setProto3IntField(this, 7, value);
+};
+
+
+/**
+ * optional int64 Shadaqah = 8;
+ * @return {number}
+ */
+proto.proto.RegulerCreateRequest.prototype.getShadaqah = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/**
+ * @param {number} value
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
 proto.proto.RegulerCreateRequest.prototype.setShadaqah = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 
 /**
- * optional string Ikhsan = 6;
- * @return {string}
+ * optional int64 Ikhsan = 9;
+ * @return {number}
  */
 proto.proto.RegulerCreateRequest.prototype.getIkhsan = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
 proto.proto.RegulerCreateRequest.prototype.setIkhsan = function(value) {
-  return jspb.Message.setProto3StringField(this, 6, value);
+  return jspb.Message.setProto3IntField(this, 9, value);
 };
 
 
 /**
- * optional string Sabil = 7;
- * @return {string}
+ * optional int64 Sabil = 10;
+ * @return {number}
  */
 proto.proto.RegulerCreateRequest.prototype.getSabil = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
 proto.proto.RegulerCreateRequest.prototype.setSabil = function(value) {
-  return jspb.Message.setProto3StringField(this, 7, value);
+  return jspb.Message.setProto3IntField(this, 10, value);
 };
 
 
 /**
- * optional string TabunganFitrah = 8;
- * @return {string}
+ * optional int64 TabunganFitrah = 11;
+ * @return {number}
  */
 proto.proto.RegulerCreateRequest.prototype.getTabunganfitrah = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
 proto.proto.RegulerCreateRequest.prototype.setTabunganfitrah = function(value) {
-  return jspb.Message.setProto3StringField(this, 8, value);
+  return jspb.Message.setProto3IntField(this, 11, value);
 };
 
 
 /**
- * optional string TabunganQurban = 9;
- * @return {string}
+ * optional int64 TabunganQurban = 12;
+ * @return {number}
  */
 proto.proto.RegulerCreateRequest.prototype.getTabunganqurban = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
 proto.proto.RegulerCreateRequest.prototype.setTabunganqurban = function(value) {
-  return jspb.Message.setProto3StringField(this, 9, value);
+  return jspb.Message.setProto3IntField(this, 12, value);
 };
 
 
 /**
- * optional string Bina = 10;
+ * optional string Bina = 13;
  * @return {string}
  */
 proto.proto.RegulerCreateRequest.prototype.getBina = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
 
@@ -527,7 +557,7 @@ proto.proto.RegulerCreateRequest.prototype.getBina = function() {
  * @return {!proto.proto.RegulerCreateRequest} returns this
  */
 proto.proto.RegulerCreateRequest.prototype.setBina = function(value) {
-  return jspb.Message.setProto3StringField(this, 10, value);
+  return jspb.Message.setProto3StringField(this, 13, value);
 };
 
 

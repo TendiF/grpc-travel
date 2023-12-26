@@ -234,7 +234,7 @@
               <th scope="col" class="px-3 py-1 bg-red-100">Infaq</th>
               <th scope="col" class="px-3 py-1 bg-red-100">Zakat</th>
               <th scope="col" class="px-3 py-1 bg-red-100">Shadaaqah</th>
-              <th scope="col" class="px-3 py-1 bg-red-100">Ihsan</th>
+              <th scope="col" class="px-3 py-1 bg-red-100">Ikhsan</th>
               <th scope="col" class="px-3 py-1 bg-red-100">Sabil</th>
               <th scope="col" class="px-3 py-1 bg-red-100">Tabungan Fitrah</th>
               <th scope="col" class="px-3 py-1 bg-red-100">Tabungan Qurban</th>
@@ -281,6 +281,8 @@
               <td class="whitespace-nowrap px-3 py-2">TUNAI</td>
               <td class="whitespace-nowrap px-3 py-2">
                 <input
+                  @input="inputReguler($event, customer, 'infaq')"
+                  step="1000"
                   type="number"
                   name="price"
                   class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -289,7 +291,9 @@
               </td>
               <td class="whitespace-nowrap px-3 py-2">
                 <input
+                  @input="inputReguler($event, customer, 'zakat')"
                   type="number"
+                  step="1000"
                   name="price"
                   class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Zakat"
@@ -297,7 +301,9 @@
               </td>
               <td class="whitespace-nowrap px-3 py-2">
                 <input
+                  @input="inputReguler($event, customer, 'shadaqah')"
                   type="number"
+                  step="1000"
                   name="price"
                   class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Shadaqah"
@@ -305,15 +311,19 @@
               </td>
               <td class="whitespace-nowrap px-3 py-2">
                 <input
+                  @input="inputReguler($event, customer, 'ikhsan')"
                   type="number"
+                  step="1000"
                   name="price"
                   class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="Ihsan"
+                  placeholder="Ikhsan"
                 />
               </td>
               <td class="whitespace-nowrap px-3 py-2">
                 <input
+                  @input="inputReguler($event, customer, 'sabil')"
                   type="number"
+                  step="1000"
                   name="price"
                   class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Sabil"
@@ -321,7 +331,9 @@
               </td>
               <td class="whitespace-nowrap px-3 py-2">
                 <input
+                  @input="inputReguler($event, customer, 'fitrah')"
                   type="number"
+                  step="1000"
                   name="price"
                   class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Fitrah"
@@ -329,7 +341,9 @@
               </td>
               <td class="whitespace-nowrap px-3 py-2">
                 <input
+                  @input="inputReguler($event, customer, 'qurban')"
                   type="number"
+                  step="1000"
                   name="price"
                   class="block rounded-md w-28 border-0 py-1.5 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Qurban"
@@ -337,7 +351,7 @@
               </td>
               <td class="whitespace-nowrap px-3 py-2">TERBINA</td>
               <td class="whitespace-nowrap px-3 py-2">
-                <input type="checkbox" />
+                <input type="checkbox" @input="inputReguler($event, customer, 'terbina')"  />
               </td>
             </tr>
           </tbody>
@@ -443,6 +457,9 @@ import {
   CustomerCreateRequest,
   CustomerSortParam
 } from "../../proto/customers_pb";
+import {
+  RegulerCreateRequest
+} from "../../proto/reguler_pb";
 import * as XLSX from "xlsx";
 
 let getTimeout: any = null;
@@ -632,6 +649,48 @@ export default Vue.extend({
       XLSX.utils.book_append_sheet(wb, ws_location, "Sheet1");
       XLSX.writeFile(wb, filename);
     },
+
+    async inputReguler(val: any, customerData: Customer.AsObject, columnName: string){
+      console.log('value', val.target.checked, customerData)
+      let regulerCreateRequest = new RegulerCreateRequest() 
+      regulerCreateRequest.setBulan("1")
+      regulerCreateRequest.setTahun("1444")
+      regulerCreateRequest.setCustomerid(customerData.id)
+
+      if(columnName === 'infaq'){
+        regulerCreateRequest.setInfaq(val.target.value)
+      }
+
+      if(columnName === 'zakat'){
+        regulerCreateRequest.setZakat(val.target.value)
+      }
+
+      if(columnName === 'shadaqah'){
+        regulerCreateRequest.setShadaqah(val.target.value)
+      }
+
+      if(columnName === 'ikhsan'){
+        regulerCreateRequest.setIkhsan(val.target.value)
+      }
+
+      if(columnName === 'sabil'){
+        regulerCreateRequest.setSabil(val.target.value)
+      }
+
+      if(columnName === 'qurban'){
+        regulerCreateRequest.setTabunganqurban(val.target.value)
+      }
+
+      if(columnName === 'fitrah'){
+        regulerCreateRequest.setTabunganfitrah(val.target.value)
+      }
+
+      if(columnName === 'terbina'){
+        regulerCreateRequest.setBina(val.target.checked ? "TERBINA" : "PASIF")
+      }
+
+      this.$store.dispatch("addReguler", regulerCreateRequest);
+    }
   },
 });
 </script>

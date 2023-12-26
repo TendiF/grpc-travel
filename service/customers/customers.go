@@ -5,7 +5,6 @@ import (
 	customerModel "deall-package/models/customer"
 	"deall-package/proto"
 	"deall-package/types"
-	"fmt"
 	"log"
 	"math"
 	"strconv"
@@ -89,8 +88,6 @@ func (s *Server) Get(ctx context.Context, params *proto.CustomerGetRequest) (*pr
 	if params.Sort.PJ != 0 {
 		sortParam = append(sortParam, bson.E{Key: "pj", Value: params.Sort.PJ})
 	}
-
-	fmt.Println("asd", sortParam)
 
 	customers := customerModel.Find(paramsBson, params.PerPage, (params.PerPage*params.Page)-params.PerPage, sortParam)
 	totalData := customerModel.CountDocuments(paramsBson)

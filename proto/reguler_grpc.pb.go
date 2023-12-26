@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RegulersService_Create_FullMethodName = "/proto.RegulersService/Create"
-	RegulersService_Get_FullMethodName    = "/proto.RegulersService/Get"
-	RegulersService_Update_FullMethodName = "/proto.RegulersService/Update"
+	RegulersService_CreateOrUpdate_FullMethodName = "/proto.RegulersService/CreateOrUpdate"
+	RegulersService_Get_FullMethodName            = "/proto.RegulersService/Get"
+	RegulersService_Update_FullMethodName         = "/proto.RegulersService/Update"
 )
 
 // RegulersServiceClient is the client API for RegulersService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RegulersServiceClient interface {
-	Create(ctx context.Context, in *RegulerCreateRequest, opts ...grpc.CallOption) (*RegulerResponse, error)
+	CreateOrUpdate(ctx context.Context, in *RegulerCreateRequest, opts ...grpc.CallOption) (*RegulerResponse, error)
 	Get(ctx context.Context, in *RegulerGetRequest, opts ...grpc.CallOption) (*RegulerGetResponse, error)
 	Update(ctx context.Context, in *RegulerUpdateRequest, opts ...grpc.CallOption) (*RegulerResponse, error)
 }
@@ -41,9 +41,9 @@ func NewRegulersServiceClient(cc grpc.ClientConnInterface) RegulersServiceClient
 	return &regulersServiceClient{cc}
 }
 
-func (c *regulersServiceClient) Create(ctx context.Context, in *RegulerCreateRequest, opts ...grpc.CallOption) (*RegulerResponse, error) {
+func (c *regulersServiceClient) CreateOrUpdate(ctx context.Context, in *RegulerCreateRequest, opts ...grpc.CallOption) (*RegulerResponse, error) {
 	out := new(RegulerResponse)
-	err := c.cc.Invoke(ctx, RegulersService_Create_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, RegulersService_CreateOrUpdate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func (c *regulersServiceClient) Update(ctx context.Context, in *RegulerUpdateReq
 // All implementations should embed UnimplementedRegulersServiceServer
 // for forward compatibility
 type RegulersServiceServer interface {
-	Create(context.Context, *RegulerCreateRequest) (*RegulerResponse, error)
+	CreateOrUpdate(context.Context, *RegulerCreateRequest) (*RegulerResponse, error)
 	Get(context.Context, *RegulerGetRequest) (*RegulerGetResponse, error)
 	Update(context.Context, *RegulerUpdateRequest) (*RegulerResponse, error)
 }
@@ -81,8 +81,8 @@ type RegulersServiceServer interface {
 type UnimplementedRegulersServiceServer struct {
 }
 
-func (UnimplementedRegulersServiceServer) Create(context.Context, *RegulerCreateRequest) (*RegulerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedRegulersServiceServer) CreateOrUpdate(context.Context, *RegulerCreateRequest) (*RegulerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrUpdate not implemented")
 }
 func (UnimplementedRegulersServiceServer) Get(context.Context, *RegulerGetRequest) (*RegulerGetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
@@ -102,20 +102,20 @@ func RegisterRegulersServiceServer(s grpc.ServiceRegistrar, srv RegulersServiceS
 	s.RegisterService(&RegulersService_ServiceDesc, srv)
 }
 
-func _RegulersService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RegulersService_CreateOrUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RegulerCreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RegulersServiceServer).Create(ctx, in)
+		return srv.(RegulersServiceServer).CreateOrUpdate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RegulersService_Create_FullMethodName,
+		FullMethod: RegulersService_CreateOrUpdate_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RegulersServiceServer).Create(ctx, req.(*RegulerCreateRequest))
+		return srv.(RegulersServiceServer).CreateOrUpdate(ctx, req.(*RegulerCreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -164,8 +164,8 @@ var RegulersService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*RegulersServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Create",
-			Handler:    _RegulersService_Create_Handler,
+			MethodName: "CreateOrUpdate",
+			Handler:    _RegulersService_CreateOrUpdate_Handler,
 		},
 		{
 			MethodName: "Get",
